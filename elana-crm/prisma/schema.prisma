@@ -62,14 +62,15 @@ model VerificationToken {
 }
 
 model client {
-  id          Int           @id @default(autoincrement())
-  first_name  String        @db.VarChar(255)
-  last_name   String        @db.VarChar(255)
-  email       String        @unique(map: "Client_email_key")
-  status      client_status @default(ACTIVE)
-  date_joined DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  clientlog   clientlog[]
+  id             Int           @id @default(autoincrement())
+  first_name     String        @db.VarChar(255)
+  last_name      String        @db.VarChar(255)
+  email          String        @unique(map: "Client_email_key")
+  status         client_status @default(ACTIVE)
+  date_joined    DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  id_expiry_date DateTime      @default(now())
+  clientlog      clientlog[]
 }
 
 model clientlog {

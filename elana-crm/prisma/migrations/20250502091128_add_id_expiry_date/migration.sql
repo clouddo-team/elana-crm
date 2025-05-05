@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `client` ADD COLUMN `id_expiry_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);
