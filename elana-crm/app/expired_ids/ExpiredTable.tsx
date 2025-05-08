@@ -30,7 +30,7 @@ const ExpiredTable = () => {
         );
         if (!res.ok) throw new Error("Failed to fetch expired clients");
         const data = await res.json();
-        setClients(data.clients);
+        setClients(data.clients ?? []);
         setTotalClients(data.total);
       } catch (error) {
         console.error("Expired clients fetch error:", error);
