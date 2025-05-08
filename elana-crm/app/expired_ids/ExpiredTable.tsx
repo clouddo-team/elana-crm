@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Table, Flex } from "@radix-ui/themes";
+import { Flex, Table } from "@radix-ui/themes";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import Pagination from "../components/Pagination";
 
 interface Props {
@@ -15,7 +15,6 @@ interface Props {
 
 const ExpiredTable = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [clients, setClients] = useState<Props[]>([]);
   const [totalClients, setTotalClients] = useState(0);
   const [loading, setLoading] = useState(true);
