@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Table, Flex } from "@radix-ui/themes";
+import Pagination from "../components/Pagination";
 
 interface Props {
   id: number;
@@ -14,18 +15,24 @@ interface Props {
 
 const ExpiredTable = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [clients, setClients] = useState<Props[]>([]);
+  const [totalClients, setTotalClients] = useState(0);
   const [loading, setLoading] = useState(true);
   const currentPage = parseInt(searchParams.get("page") || "1");
   const pageSize = 10;
 
   useEffect(() => {
     const fetchExpiredClients = async () => {
+      setLoading(true);
       try {
-        const res = await fetch("/api/expired-ids");
+        const res = await fetch(
+          `/api/expired-ids?page=${currentPage}&size=${pageSize}`
+        );
         if (!res.ok) throw new Error("Failed to fetch expired clients");
         const data = await res.json();
-        setClients(data);
+        setClients(data.clients);
+        setTotalClients(data.total);
       } catch (error) {
         console.error("Expired clients fetch error:", error);
         setClients([]);
@@ -35,7 +42,7 @@ const ExpiredTable = () => {
     };
 
     fetchExpiredClients();
-  }, []);
+  }, [currentPage]);
 
   if (loading) return <p>Loading expired clients...</p>;
 
@@ -67,6 +74,11 @@ const ExpiredTable = () => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={totalClients}
+        pageSize={pageSize}
+        currentPage={currentPage}
+      />
     </Flex>
   );
 };
