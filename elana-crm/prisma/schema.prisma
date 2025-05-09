@@ -88,3 +88,21 @@ enum client_status {
   INACTIVE
   PENDING_PAYMENT
 }
+
+model demo_client {
+  id               Int      @id @default(autoincrement())
+  email            String   @db.VarChar(255)
+  name             String   @db.VarChar(255)
+  phone            String   @db.VarChar(50)
+  gdpr             Boolean
+  gdpr_text        String   @default("none") @db.VarChar(500)
+  demo_validity    DateTime
+  country          String   @db.VarChar(100)
+  city             String   @db.VarChar(100)
+  IP               String   @default("0") @db.VarChar(45)
+  language         String   @db.VarChar(50)
+  mailer_lite_info String   @default("none") @db.VarChar(255)
+  is_egt           Boolean
+  is_bgt           Boolean
+  is_f359          Boolean
+}

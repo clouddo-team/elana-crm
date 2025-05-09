@@ -35,7 +35,7 @@ const ClientSummary = ({ active, inactive, pending_payment }: Props) => {
           <Flex direction="column" gap="1">
             <Link
               className="text-sm font-medium"
-              href={`/clients/list?status=${container.status}`}
+              href={`/clients/?status=${container.status}`}
             >
               {container.label}
             </Link>
