@@ -73,7 +73,7 @@ const ClientTable = () => {
     <Flex direction="column" gap="4">
       <input
         type="text"
-        placeholder="Search by first name"
+        placeholder="Search by first and last name"
         value={searchTerm}
         onChange={handleSearchChange}
         className="p-2 border rounded-md mb-4 max-w-xs"

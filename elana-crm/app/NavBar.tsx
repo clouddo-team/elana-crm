@@ -6,6 +6,8 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
+import DarkModeSwitch from "./DarkModeSwitch";
+import { Flex } from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -13,13 +15,14 @@ const NavBar = () => {
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Clients", href: "/clients" },
+    { label: "Demo Clients", href: "/demo-clients" },
     { label: "Expired IDs", href: "/expired_ids" },
   ];
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-16 items-center justify-between">
       <Link href="/">
         <Image
-          src="/images/elana-logo.jpg"
+          src="/images/elana-logo.png"
           alt="logo"
           width={140}
           height={80}
@@ -42,7 +45,7 @@ const NavBar = () => {
           </Link>
         ))}
       </ul>
-      <div>
+      <Flex gap="3" align="center">
         {status === "loading" && <div>Loading...</div>}
         {status === "authenticated" && (
           <div>
@@ -55,7 +58,8 @@ const NavBar = () => {
         {status === "unauthenticated" && (
           <Link href={"/api/auth/signin"}>Login</Link>
         )}
-      </div>
+        <DarkModeSwitch />
+      </Flex>
     </nav>
   );
 };
