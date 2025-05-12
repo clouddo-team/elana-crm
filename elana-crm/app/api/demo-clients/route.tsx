@@ -11,11 +11,25 @@ export async function GET(request: NextRequest) {
   const skip = (page - 1) * size;
   const validOrderFields = ["name", "email", "country", "language"];
   const safeOrderBy = validOrderFields.includes(orderBy) ? orderBy : "name";
+  const search = searchParams.get("search") || "";
+
+  const whereClause = {
+    ...(search && {
+      OR: [
+        {
+          name: {
+            contains: search,
+          },
+        },
+      ],
+    }),
+  };
 
   const [clients, total] = await Promise.all([
     prisma.demo_client.findMany({
       skip,
       take: size,
+      where: whereClause,
       orderBy: { [safeOrderBy]: order },
     }),
     prisma.demo_client.count(),

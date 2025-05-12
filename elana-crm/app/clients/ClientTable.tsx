@@ -7,6 +7,7 @@ import Link from "../components/Link";
 import ClientStatusBadge from "../components/ClientStatusBadge";
 import Pagination from "../components/Pagination";
 import { client_status } from "@prisma/client";
+
 interface Client {
   id: number;
   first_name: string;
@@ -25,11 +26,7 @@ const ClientTable = () => {
   const [totalClients, setTotalClients] = useState(0);
   const orderBy = searchParams.get("orderBy") || "date_joined";
   const order = searchParams.get("order") || "asc";
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
-
-  const router = useRouter();
+  const searchTerm = searchParams.get("search") || "";
 
   const toggleSort = (field: string) => {
     const newOrder = orderBy === field && order === "asc" ? "desc" : "asc";
@@ -38,17 +35,6 @@ const ClientTable = () => {
     params.set("order", newOrder);
     if (!params.get("status")) params.set("status", "all");
     window.history.pushState(null, "", `?${params.toString()}`);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("search", value);
-    params.set("page", "1");
-
-    router.push(`?${params.toString()}`);
   };
 
   useEffect(() => {
@@ -71,13 +57,6 @@ const ClientTable = () => {
 
   return (
     <Flex direction="column" gap="4">
-      <input
-        type="text"
-        placeholder="Search by first and last name"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        className="p-2 border rounded-md mb-4 max-w-xs"
-      />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>

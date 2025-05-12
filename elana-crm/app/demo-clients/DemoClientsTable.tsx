@@ -20,7 +20,11 @@ interface DemoClient {
   is_f359: boolean;
 }
 
-const DemoClientTable = () => {
+interface DemoClientTableProps {
+  visibleColumns: string[];
+}
+
+const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get("page") || "1");
@@ -29,6 +33,7 @@ const DemoClientTable = () => {
   const order = searchParams.get("order") || "asc";
   const [demoClients, setDemoClients] = useState<DemoClient[]>([]);
   const [totalClients, setTotalClients] = useState(0);
+  const searchTerm = searchParams.get("search") || "";
 
   const toggleSort = (field: string) => {
     const newOrder = orderBy === field && order === "asc" ? "desc" : "asc";
@@ -42,7 +47,7 @@ const DemoClientTable = () => {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          `/api/demo-clients?page=${currentPage}&size=${pageSize}&orderBy=${orderBy}&order=${order}`
+          `/api/demo-clients?page=${currentPage}&size=${pageSize}&orderBy=${orderBy}&order=${order}&search=${searchTerm}`
         );
         if (!res.ok) throw new Error("Failed to fetch demo clients");
         const data = await res.json();
@@ -54,41 +59,71 @@ const DemoClientTable = () => {
       }
     };
     fetchData();
-  }, [currentPage, orderBy, order]);
+  }, [currentPage, orderBy, order, searchTerm]);
+
+  const shouldShow = (col: string) => visibleColumns.includes(col);
 
   return (
     <Flex direction="column" gap="4">
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell
-              onClick={() => toggleSort("name")}
-              style={{ cursor: "pointer" }}
-            >
-              Name {orderBy === "name" && (order === "asc" ? "↑" : "↓")}
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Phone</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Country</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>City</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Language</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>EGT</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>BGT</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>F359</Table.ColumnHeaderCell>
+            {shouldShow("name") && (
+              <Table.ColumnHeaderCell
+                onClick={() => toggleSort("name")}
+                style={{ cursor: "pointer" }}
+              >
+                Name {orderBy === "name" && (order === "asc" ? "↑" : "↓")}
+              </Table.ColumnHeaderCell>
+            )}
+            {shouldShow("email") && (
+              <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("phone") && (
+              <Table.ColumnHeaderCell>Phone</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("country") && (
+              <Table.ColumnHeaderCell>Country</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("city") && (
+              <Table.ColumnHeaderCell>City</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("language") && (
+              <Table.ColumnHeaderCell>Language</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("is_egt") && (
+              <Table.ColumnHeaderCell>EGT</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("is_bgt") && (
+              <Table.ColumnHeaderCell>BGT</Table.ColumnHeaderCell>
+            )}
+            {shouldShow("is_f359") && (
+              <Table.ColumnHeaderCell>F359</Table.ColumnHeaderCell>
+            )}
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {demoClients.map((client) => (
             <Table.Row key={client.id}>
-              <Table.Cell>{client.name}</Table.Cell>
-              <Table.Cell>{client.email}</Table.Cell>
-              <Table.Cell>{client.phone}</Table.Cell>
-              <Table.Cell>{client.country}</Table.Cell>
-              <Table.Cell>{client.city}</Table.Cell>
-              <Table.Cell>{client.language}</Table.Cell>
-              <Table.Cell>{client.is_egt ? "Yes" : "No"}</Table.Cell>
-              <Table.Cell>{client.is_bgt ? "Yes" : "No"}</Table.Cell>
-              <Table.Cell>{client.is_f359 ? "Yes" : "No"}</Table.Cell>
+              {shouldShow("name") && <Table.Cell>{client.name}</Table.Cell>}
+              {shouldShow("email") && <Table.Cell>{client.email}</Table.Cell>}
+              {shouldShow("phone") && <Table.Cell>{client.phone}</Table.Cell>}
+              {shouldShow("country") && (
+                <Table.Cell>{client.country}</Table.Cell>
+              )}
+              {shouldShow("city") && <Table.Cell>{client.city}</Table.Cell>}
+              {shouldShow("language") && (
+                <Table.Cell>{client.language}</Table.Cell>
+              )}
+              {shouldShow("is_egt") && (
+                <Table.Cell>{client.is_egt ? "Yes" : "No"}</Table.Cell>
+              )}
+              {shouldShow("is_bgt") && (
+                <Table.Cell>{client.is_bgt ? "Yes" : "No"}</Table.Cell>
+              )}
+              {shouldShow("is_f359") && (
+                <Table.Cell>{client.is_f359 ? "Yes" : "No"}</Table.Cell>
+              )}
             </Table.Row>
           ))}
         </Table.Body>
