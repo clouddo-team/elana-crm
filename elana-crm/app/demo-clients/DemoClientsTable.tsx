@@ -3,7 +3,7 @@
 import { Flex, Table } from "@radix-ui/themes";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 
 interface DemoClient {
   id: number;
@@ -34,6 +34,9 @@ const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
   const [demoClients, setDemoClients] = useState<DemoClient[]>([]);
   const [totalClients, setTotalClients] = useState(0);
   const searchTerm = searchParams.get("search") || "";
+  const egtFilter = searchParams.get("egt") ?? "all";
+  const bgtFilter = searchParams.get("bgt") ?? "all";
+  const f359Filter = searchParams.get("f359") ?? "all";
 
   const toggleSort = (field: string) => {
     const newOrder = orderBy === field && order === "asc" ? "desc" : "asc";
@@ -47,7 +50,7 @@ const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          `/api/demo-clients?page=${currentPage}&size=${pageSize}&orderBy=${orderBy}&order=${order}&search=${searchTerm}`
+          `/api/demo-clients?page=${currentPage}&size=${pageSize}&orderBy=${orderBy}&order=${order}&search=${searchTerm}&egt=${egtFilter}&bgt=${bgtFilter}&f359=${f359Filter}`
         );
         if (!res.ok) throw new Error("Failed to fetch demo clients");
         const data = await res.json();
@@ -59,7 +62,15 @@ const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
       }
     };
     fetchData();
-  }, [currentPage, orderBy, order, searchTerm]);
+  }, [
+    currentPage,
+    orderBy,
+    order,
+    searchTerm,
+    egtFilter,
+    bgtFilter,
+    f359Filter,
+  ]);
 
   const shouldShow = (col: string) => visibleColumns.includes(col);
 

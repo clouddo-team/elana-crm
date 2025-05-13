@@ -1,20 +1,32 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Table, Flex } from "@radix-ui/themes";
-import Link from "../components/Link";
-import ClientStatusBadge from "../components/ClientStatusBadge";
-import Pagination from "../components/Pagination";
+import Link from "../../components/Link";
+import ClientStatusBadge from "../../components/ClientStatusBadge";
+import Pagination from "../../components/Pagination";
 import { client_status } from "@prisma/client";
 
 interface Client {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  date_joined: string;
+  eurosys_id: number;
+  name: string;
+  counterpart_name: string;
+  counterpart_id: string;
+  risk_profile: string;
   status: client_status;
+  type: string;
+  phone: string;
+  country: string;
+  address: string;
+  email: string;
+  ic_city: string;
+  registration_date: string;
+  language: string;
+  representative: string;
+  pro_retail: string;
+  comment?: string;
+  updatedAt: string;
 }
 
 const ClientTable = () => {
@@ -24,7 +36,7 @@ const ClientTable = () => {
   const statusFilter = searchParams.get("status") || "all";
   const [clients, setClients] = useState<Client[]>([]);
   const [totalClients, setTotalClients] = useState(0);
-  const orderBy = searchParams.get("orderBy") || "date_joined";
+  const orderBy = searchParams.get("orderBy") || "registration_date";
   const order = searchParams.get("order") || "asc";
   const searchTerm = searchParams.get("search") || "";
 
@@ -61,48 +73,65 @@ const ClientTable = () => {
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell
-              onClick={() => toggleSort("first_name")}
+              onClick={() => toggleSort("name")}
               style={{ cursor: "pointer" }}
             >
-              First Name{" "}
-              {orderBy === "first_name" && (order === "asc" ? "↑" : "↓")}
+              Name {orderBy === "name" && (order === "asc" ? "↑" : "↓")}
             </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Phone</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Country</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Risk Profile</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Representative</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Counterpart Name</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Counterpart ID</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>IC City</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Language</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Pro/Retail</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell
-              onClick={() => toggleSort("last_name")}
+              onClick={() => toggleSort("registration_date")}
               style={{ cursor: "pointer" }}
             >
-              Last Name{" "}
-              {orderBy === "last_name" && (order === "asc" ? "↑" : "↓")}
+              Registration Date{" "}
+              {orderBy === "registration_date" && (order === "asc" ? "↑" : "↓")}
             </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Email
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Date Joined
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="hidden md:table-cell">
-              Status
-            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Last Updated</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Comment</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {clients.map((client) => (
-            <Table.Row key={client.id}>
+            <Table.Row key={client.eurosys_id}>
               <Table.Cell>
-                <Link href={`/clients/${client.id}`}>{client.first_name}</Link>
+                <Link href={`/clients/${client.eurosys_id}`}>
+                  {client.name}
+                </Link>
               </Table.Cell>
+              <Table.Cell>{client.email}</Table.Cell>
+              <Table.Cell>{client.phone}</Table.Cell>
+              <Table.Cell>{client.country}</Table.Cell>
+              <Table.Cell>{client.address}</Table.Cell>
+              <Table.Cell>{client.type}</Table.Cell>
               <Table.Cell>
-                <Link href={`/clients/${client.id}`}>{client.last_name}</Link>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {client.email}
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {new Date(client.date_joined).toDateString()}
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
                 <ClientStatusBadge status={client.status} />
               </Table.Cell>
+              <Table.Cell>{client.risk_profile}</Table.Cell>
+              <Table.Cell>{client.representative}</Table.Cell>
+              <Table.Cell>{client.counterpart_name}</Table.Cell>
+              <Table.Cell>{client.counterpart_id}</Table.Cell>
+              <Table.Cell>{client.ic_city}</Table.Cell>
+              <Table.Cell>{client.language}</Table.Cell>
+              <Table.Cell>{client.pro_retail}</Table.Cell>
+              <Table.Cell>
+                {new Date(client.registration_date).toLocaleDateString()}
+              </Table.Cell>
+              <Table.Cell>
+                {new Date(client.updatedAt).toLocaleDateString()}
+              </Table.Cell>
+              <Table.Cell>{client.comment || "-"}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

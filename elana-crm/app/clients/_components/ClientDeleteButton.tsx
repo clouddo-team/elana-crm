@@ -1,5 +1,5 @@
 "use client";
-import Spinner from "@/app/components/Spinner";
+import Spinner from "@/components/Spinner";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";

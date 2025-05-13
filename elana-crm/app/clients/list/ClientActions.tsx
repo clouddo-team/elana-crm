@@ -4,7 +4,7 @@ import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import StatusFilter from "./StatusFilter";
-import ClientSearchFilter from "../../components/ClientSearchFilter";
+import ClientSearchFilter from "@/components/ClientSearchFilter";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "../../utils/useDebounce";
 
@@ -35,7 +35,7 @@ const ClientActions = () => {
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
       />
-      <Button variant="soft" size="2" asChild>
+      <Button variant="soft" size="3" asChild>
         <Link href="/clients/new">Add New Client</Link>
       </Button>
     </Flex>

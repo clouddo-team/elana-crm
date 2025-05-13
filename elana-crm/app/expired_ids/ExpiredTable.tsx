@@ -3,7 +3,7 @@
 import { Flex, Table } from "@radix-ui/themes";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Pagination from "../components/Pagination";
+import Pagination from "../../components/Pagination";
 
 interface Props {
   id: number;

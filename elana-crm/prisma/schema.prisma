@@ -62,31 +62,55 @@ model VerificationToken {
 }
 
 model client {
-  id             Int           @id @default(autoincrement())
-  first_name     String        @db.VarChar(255)
-  last_name      String        @db.VarChar(255)
-  email          String        @unique(map: "Client_email_key")
-  status         client_status @default(ACTIVE)
-  date_joined    DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  id_expiry_date DateTime      @default(now())
-  clientlog      clientlog[]
+  eurosys_id        Int           @id @default(autoincrement())
+  name              String        @db.VarChar(255)
+  counterpart_name  String        @db.VarChar(255)
+  counterpart_id    String        @db.VarChar(100)
+  risk_profile      String        @default("no") @db.VarChar(10)
+  status            client_status @default(ACTIVE)
+  type              client_type   @default(individual)
+  phone             String        @db.VarChar(50)
+  country           String        @default("Bulgaria") @db.VarChar(100)
+  address           String        @db.VarChar(255)
+  email             String        @unique(map: "Client_email_key") @db.VarChar(255)
+  ic_city           String        @default("Varna") @db.VarChar(100)
+  registration_date DateTime      @default(now())
+  language          String        @default("Bulgarian") @db.VarChar(50)
+  representative    String        @default("Dimitar") @db.VarChar(255)
+  pro_retail        String        @default("retail") @db.VarChar(50)
+  comment           String?       @db.Text
+  updatedAt         DateTime      @default(now()) @updatedAt
+
+  deals deals[] @relation("ClientDeals")
 }
 
-model clientlog {
-  id          Int      @id @default(autoincrement())
-  log_created DateTime @default(now())
-  log_message String   @db.Text
-  clientId    Int
-  client      client   @relation(fields: [clientId], references: [id], onDelete: Cascade, map: "ClientLog_clientId_fkey")
+model deals {
+  id         Int      @id @default(autoincrement())
+  eurosys_id Int
+  date       DateTime @default(now())
+  settlement String   @db.VarChar(255)
+  status     String   @db.VarChar(10)
+  order_type String   @db.VarChar(100)
+  code       String   @db.VarChar(100)
+  currency   String   @db.VarChar(10)
+  number     Int
+  unit_price Float
+  total      Float
+  platform   String   @db.VarChar(50)
 
-  @@index([clientId], map: "ClientLog_clientId_fkey")
+  client client @relation("ClientDeals", fields: [eurosys_id], references: [eurosys_id], onDelete: Cascade)
+
+  @@index([eurosys_id], map: "Deals_eurosys_id_fkey")
 }
 
 enum client_status {
   ACTIVE
   INACTIVE
-  PENDING_PAYMENT
+}
+
+enum client_type {
+  individual
+  business
 }
 
 model demo_client {

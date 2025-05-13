@@ -6,10 +6,9 @@ import React from "react";
 interface Props {
   active: number;
   inactive: number;
-  pending_payment: number;
 }
 
-const ClientSummary = ({ active, inactive, pending_payment }: Props) => {
+const ClientSummary = ({ active, inactive }: Props) => {
   const containers: {
     label: string;
     value: number;
@@ -20,11 +19,6 @@ const ClientSummary = ({ active, inactive, pending_payment }: Props) => {
       label: "Inactive Clients",
       value: inactive,
       status: "INACTIVE",
-    },
-    {
-      label: "Pending Payment",
-      value: pending_payment,
-      status: "PENDING_PAYMENT",
     },
   ];
 

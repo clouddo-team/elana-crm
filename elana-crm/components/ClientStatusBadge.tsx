@@ -8,7 +8,6 @@ const statusMap: Record<
 > = {
   ACTIVE: { label: "Active", color: "green" },
   INACTIVE: { label: "Inactive", color: "red" },
-  PENDING_PAYMENT: { label: "Pending Payment", color: "yellow" },
 };
 
 const ClientStatusBadge = ({ status }: { status: client_status }) => {

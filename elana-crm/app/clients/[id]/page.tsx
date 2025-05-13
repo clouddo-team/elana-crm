@@ -7,13 +7,13 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-const ClientLogPage = async ({ params }: Props) => {
+const ClientDealsPage = async ({ params }: Props) => {
   const { id } = await params;
   const clientId = parseInt(id);
 
-  const log = await prisma.clientlog.findMany({
-    where: { clientId },
-    orderBy: { log_created: "asc" },
+  const log = await prisma.deals.findMany({
+    where: { eurosys_id: clientId },
+    orderBy: { date: "asc" },
   });
 
   return (
@@ -24,4 +24,4 @@ const ClientLogPage = async ({ params }: Props) => {
   );
 };
 
-export default ClientLogPage;
+export default ClientDealsPage;

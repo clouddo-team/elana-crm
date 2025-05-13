@@ -7,14 +7,12 @@ import React from "react";
 interface Props {
   active: number;
   inactive: number;
-  pending_payment: number;
 }
 
-const ClientChart = ({ active, inactive, pending_payment }: Props) => {
+const ClientChart = ({ active, inactive }: Props) => {
   const data = [
     { label: "Active", value: active },
     { label: "Inactive", value: inactive },
-    { label: "Pending Payment", value: pending_payment },
   ];
 
   return (

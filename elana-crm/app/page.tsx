@@ -12,23 +12,12 @@ export default async function Home() {
   const inactive = await prisma.client.count({
     where: { status: "INACTIVE" },
   });
-  const pending_payment = await prisma.client.count({
-    where: { status: "PENDING_PAYMENT" },
-  });
 
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
       <Flex direction="column" gap="5">
-        <ClientSummary
-          active={active}
-          inactive={inactive}
-          pending_payment={pending_payment}
-        />
-        <ClientChart
-          active={active}
-          inactive={inactive}
-          pending_payment={pending_payment}
-        />
+        <ClientSummary active={active} inactive={inactive} />
+        <ClientChart active={active} inactive={inactive} />
       </Flex>
       <LatestClient />
     </Grid>

@@ -2,11 +2,11 @@ import { prisma } from "@/lib/prisma";
 import { Card, Flex, Heading, Table } from "@radix-ui/themes";
 
 import Link from "next/link";
-import ClientStatusBadge from "./components/ClientStatusBadge";
+import ClientStatusBadge from "../components/ClientStatusBadge";
 
 const LatestIssues = async () => {
   const clients = await prisma.client.findMany({
-    orderBy: { date_joined: "desc" },
+    orderBy: { registration_date: "desc" },
     take: 5,
   });
 
@@ -18,13 +18,13 @@ const LatestIssues = async () => {
       <Table.Root>
         <Table.Body>
           {clients.map((client) => (
-            <Table.Row key={client.id}>
+            <Table.Row key={client.eurosys_id}>
               <Table.Cell>
                 <Flex justify="between">
                   <Flex direction="column" align="start" gap="2">
-                    <Link href={`/clients/${client.id}`}>
-                      {client.first_name} {client.last_name} - joined{" "}
-                      {client.date_joined.toLocaleDateString()}
+                    <Link href={`/clients/${client.eurosys_id}`}>
+                      {client.name} {client.name} - joined{" "}
+                      {client.registration_date.toLocaleDateString()}
                     </Link>
                     <ClientStatusBadge status={client.status} />
                   </Flex>

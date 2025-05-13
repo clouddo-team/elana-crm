@@ -3,7 +3,7 @@
 import { Button, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import ClientSearchFilter from "../components/ClientSearchFilter";
+import ClientSearchFilter from "../../components/ClientSearchFilter";
 import { useDebounce } from "../utils/useDebounce";
 
 const ALL_COLUMNS = [
@@ -65,6 +65,74 @@ const Filters = ({
             >
               {col.label}
             </DropdownMenu.CheckboxItem>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Button variant="outline" size="3" mb="4">
+            Filter EGT
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          {["all", "yes", "no"].map((value) => (
+            <DropdownMenu.Item
+              key={value}
+              onSelect={() => {
+                const params = new URLSearchParams(searchParams.toString());
+                params.set("egt", value);
+                params.set("page", "1");
+                router.push(`?${params.toString()}`);
+              }}
+            >
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </DropdownMenu.Item>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Button variant="outline" size="3" mb="4">
+            Filter BGT
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          {["all", "yes", "no"].map((value) => (
+            <DropdownMenu.Item
+              key={value}
+              onSelect={() => {
+                const params = new URLSearchParams(searchParams.toString());
+                params.set("bgt", value);
+                params.set("page", "1");
+                router.push(`?${params.toString()}`);
+              }}
+            >
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </DropdownMenu.Item>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Button variant="outline" size="3" mb="4">
+            Filter F359
+          </Button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          {["all", "yes", "no"].map((value) => (
+            <DropdownMenu.Item
+              key={value}
+              onSelect={() => {
+                const params = new URLSearchParams(searchParams.toString());
+                params.set("f359", value);
+                params.set("page", "1");
+                router.push(`?${params.toString()}`);
+              }}
+            >
+              {value.charAt(0).toUpperCase() + value.slice(1)}
+            </DropdownMenu.Item>
           ))}
         </DropdownMenu.Content>
       </DropdownMenu.Root>

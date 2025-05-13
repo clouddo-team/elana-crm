@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField, Select, Flex } from "@radix-ui/themes";
-import Spinner from "@/app/components/Spinner";
-import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/components/Spinner";
+import ErrorMessage from "@/components/ErrorMessage";
 
 type ClientFormData = z.infer<typeof clientSchema>;
 

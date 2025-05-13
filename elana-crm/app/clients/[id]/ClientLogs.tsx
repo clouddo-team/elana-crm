@@ -5,21 +5,28 @@ import { Card, Flex, Button, TextField } from "@radix-ui/themes";
 import ClientDeleteButton from "../_components/ClientDeleteButton";
 import ClientEditButton from "../_components/ClientEditButton";
 
-interface Log {
-  id: number;
-  log_created: Date;
-  log_message: string;
-  clientId: number;
+interface Deal {
+  eurosys_id: number;
+  date: Date;
+  settlement: string;
+  status: string;
+  order_type: string;
+  code: string;
+  currency: string;
+  number: number;
+  unit_price: number;
+  total: number;
+  platform: string;
 }
 
-const ClientLogs = ({
+const ClientDeals = ({
   initialLogs,
   clientId,
 }: {
-  initialLogs: Log[];
+  initialLogs: Deal[];
   clientId: number;
 }) => {
-  const [logs, setLogs] = useState(initialLogs);
+  const [deals, setDeals] = useState(initialLogs);
   const [newMessage, setNewMessage] = useState("");
 
   const handleDelete = async (id: number) => {
@@ -28,7 +35,7 @@ const ClientLogs = ({
     });
 
     if (res.ok) {
-      setLogs((prev) => prev.filter((log) => log.id !== id));
+      setDeals((prev) => prev.filter((deal) => deal.eurosys_id !== id));
     } else {
       alert("Failed to delete log.");
     }
@@ -47,8 +54,8 @@ const ClientLogs = ({
     });
 
     if (res.ok) {
-      const newLog = await res.json();
-      setLogs((prev) => [...prev, newLog]);
+      const newDeal = await res.json();
+      setDeals((prev) => [...prev, newDeal]);
       setNewMessage("");
     } else {
       alert("Failed to add log.");
@@ -74,22 +81,22 @@ const ClientLogs = ({
         </Button>
       </Flex>
 
-      {logs.length === 0 ? (
+      {deals.length === 0 ? (
         <Flex gap="4" my="4">
           <Card>There are no logs for the selected user.</Card>
         </Flex>
       ) : (
         <ul>
-          {logs.map((log) => (
-            <Flex gap="4" my="4" key={log.id} align="center">
+          {deals.map((deal) => (
+            <Flex gap="4" my="4" key={deal.eurosys_id} align="center">
               <li>
                 <Card>
-                  {log.log_message}
-                  <p>Created at {new Date(log.log_created).toLocaleString()}</p>
+                  {deal.order_type}
+                  <p>Created at {new Date(deal.date).toLocaleString()}</p>
                   <Button
                     mt="2"
                     color="red"
-                    onClick={() => handleDelete(log.id)}
+                    onClick={() => handleDelete(deal.eurosys_id)}
                   >
                     Delete
                   </Button>
@@ -100,9 +107,9 @@ const ClientLogs = ({
         </ul>
       )}
       <ClientDeleteButton clientId={clientId} />
-      <ClientEditButton clientId={clientId}/>
+      <ClientEditButton clientId={clientId} />
     </Flex>
   );
 };
 
-export default ClientLogs;
+export default ClientDeals;

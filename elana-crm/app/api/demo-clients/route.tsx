@@ -13,17 +13,40 @@ export async function GET(request: NextRequest) {
   const safeOrderBy = validOrderFields.includes(orderBy) ? orderBy : "name";
   const search = searchParams.get("search") || "";
 
-  const whereClause = {
-    ...(search && {
-      OR: [
-        {
-          name: {
-            contains: search,
-          },
+  const egt = searchParams.get("egt") ?? "all";
+  const bgt = searchParams.get("bgt") ?? "all";
+  const f359 = searchParams.get("f359") ?? "all";
+
+  const whereClause: any = {};
+
+  if (search) {
+    whereClause.OR = [
+      {
+        name: {
+          contains: search,
+          mode: "insensitive",
         },
-      ],
-    }),
-  };
+      },
+      {
+        email: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (egt !== "all") {
+    whereClause.is_egt = egt === "yes";
+  }
+
+  if (bgt !== "all") {
+    whereClause.is_bgt = bgt === "yes";
+  }
+
+  if (f359 !== "all") {
+    whereClause.is_f359 = f359 === "yes";
+  }
 
   const [clients, total] = await Promise.all([
     prisma.demo_client.findMany({
@@ -32,7 +55,7 @@ export async function GET(request: NextRequest) {
       where: whereClause,
       orderBy: { [safeOrderBy]: order },
     }),
-    prisma.demo_client.count(),
+    prisma.demo_client.count({ where: whereClause }),
   ]);
 
   return NextResponse.json({ clients, total });
