@@ -11,14 +11,14 @@ export async function POST(request: NextRequest) {
   const newClient = await prisma.client.create({
     data: {
       name: validation.data.name,
-      counterpart_name: validation.data.counterpart_name,
-      counterpart_id: validation.data.counterpart_id,
+      counterpart_name: validation.data.counterpart_name || "",
+      counterpart_id: validation.data.counterpart_id || "",
       risk_profile: validation.data.risk_profile,
       status: validation.data.status,
       type: validation.data.type as "individual" | "business",
       phone: validation.data.phone,
       country: validation.data.country,
-      address: validation.data.address,
+      address: validation.data.address || "",
       email: validation.data.email,
       ic_city: validation.data.ic_city,
       registration_date: validation.data.registration_date,

@@ -26,7 +26,7 @@ interface Client {
   representative: string;
   pro_retail: string;
   comment?: string;
-  updatedAt: string;
+  id_expiry_date: string;
 }
 
 const ClientTable = () => {
@@ -98,7 +98,7 @@ const ClientTable = () => {
               Registration Date{" "}
               {orderBy === "registration_date" && (order === "asc" ? "↑" : "↓")}
             </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Last Updated</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>ID Expiry</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Comment</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -129,7 +129,7 @@ const ClientTable = () => {
                 {new Date(client.registration_date).toLocaleDateString()}
               </Table.Cell>
               <Table.Cell>
-                {new Date(client.updatedAt).toLocaleDateString()}
+                {new Date(client.id_expiry_date).toLocaleDateString()}
               </Table.Cell>
               <Table.Cell>{client.comment || "-"}</Table.Cell>
             </Table.Row>

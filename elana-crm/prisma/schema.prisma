@@ -62,55 +62,43 @@ model VerificationToken {
 }
 
 model client {
-  eurosys_id        Int           @id @default(autoincrement())
-  name              String        @db.VarChar(255)
-  counterpart_name  String        @db.VarChar(255)
-  counterpart_id    String        @db.VarChar(100)
-  risk_profile      String        @default("no") @db.VarChar(10)
-  status            client_status @default(ACTIVE)
-  type              client_type   @default(individual)
-  phone             String        @db.VarChar(50)
-  country           String        @default("Bulgaria") @db.VarChar(100)
-  address           String        @db.VarChar(255)
   email             String        @unique(map: "Client_email_key") @db.VarChar(255)
-  ic_city           String        @default("Varna") @db.VarChar(100)
-  registration_date DateTime      @default(now())
-  language          String        @default("Bulgarian") @db.VarChar(50)
-  representative    String        @default("Dimitar") @db.VarChar(255)
-  pro_retail        String        @default("retail") @db.VarChar(50)
+  status            client_status @default(ACTIVE)
+  address           String        @db.VarChar(255)
   comment           String?       @db.Text
+  counterpart_id    String        @db.VarChar(100)
+  counterpart_name  String        @db.VarChar(255)
+  country           String        @default("Bulgaria") @db.VarChar(100)
+  eurosys_id        Int           @id @default(autoincrement())
+  ic_city           String        @default("Varna") @db.VarChar(100)
+  language          String        @default("Bulgarian") @db.VarChar(50)
+  name              String        @db.VarChar(255)
+  phone             String        @db.VarChar(50)
+  pro_retail        String        @default("retail") @db.VarChar(50)
+  registration_date DateTime      @default(now())
+  representative    String        @default("Dimitar") @db.VarChar(255)
+  risk_profile      String        @default("no") @db.VarChar(10)
+  type              client_type   @default(individual)
   id_expiry_date    DateTime      @default(now())
-
-  deals deals[] @relation("ClientDeals")
+  deals             deals[]       @relation("ClientDeals")
 }
 
 model deals {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   eurosys_id Int
-  date       DateTime @default(now())
-  settlement String   @db.VarChar(255)
-  status     String   @db.VarChar(10)
-  order_type String   @db.VarChar(100)
-  code       String   @db.VarChar(100)
-  currency   String   @db.VarChar(10)
+  date       DateTime  @default(now())
+  status     String?   @db.VarChar(20)
+  order_type String    @db.VarChar(100)
+  code       String    @db.VarChar(100)
+  currency   String    @db.VarChar(10)
   number     Int
   unit_price Float
   total      Float
-  platform   String   @db.VarChar(50)
-
-  client client @relation("ClientDeals", fields: [eurosys_id], references: [eurosys_id], onDelete: Cascade)
+  platform   String    @db.VarChar(50)
+  settlement DateTime? @db.DateTime(0)
+  client     client    @relation("ClientDeals", fields: [eurosys_id], references: [eurosys_id], onDelete: Cascade)
 
   @@index([eurosys_id], map: "Deals_eurosys_id_fkey")
-}
-
-enum client_status {
-  ACTIVE
-  INACTIVE
-}
-
-enum client_type {
-  individual
-  business
 }
 
 model demo_client {
@@ -129,4 +117,14 @@ model demo_client {
   is_egt           Boolean
   is_bgt           Boolean
   is_f359          Boolean
+}
+
+enum client_status {
+  ACTIVE
+  INACTIVE
+}
+
+enum client_type {
+  individual
+  business
 }

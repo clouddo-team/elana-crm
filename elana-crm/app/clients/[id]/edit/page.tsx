@@ -8,13 +8,13 @@ const ClientForm = dynamic(() => import("../../_components/ClientEditForm"), {
 });
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 const EditClientPage = async ({ params }: Props) => {
-  const { id } = await params;
+  const clientId = parseInt(params.id);
   const client = await prisma.client.findUnique({
-    where: { id: parseInt(id) },
+    where: { eurosys_id: clientId },
   });
 
   if (!client) notFound();

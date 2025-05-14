@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
-import ClientSummary from "./ClientSummary";
 import LatestClient from "./LatestClient";
 import ClientChart from "./ClientChart";
 import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
+import { prisma } from "@/lib/prisma";
+import ClientSummary from "./ClientSummary";
 
 export default async function Home() {
   const active = await prisma.client.count({
@@ -14,13 +14,20 @@ export default async function Home() {
   });
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="5">
+    <Flex direction="column" gap="10">
+      {/* Upper Part - Real Clients */}
       <Flex direction="column" gap="5">
+        <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Real Clients</h2>
         <ClientSummary active={active} inactive={inactive} />
-        <ClientChart active={active} inactive={inactive} />
+        <ClientChart />
       </Flex>
-      <LatestClient />
-    </Grid>
+
+      {/* Lower Part - Demo Clients */}
+      <Flex direction="column" gap="5">
+        <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Demo Clients</h2>
+        <LatestClient />
+      </Flex>
+    </Flex>
   );
 }
 

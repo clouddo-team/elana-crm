@@ -31,7 +31,7 @@ const ClientDeleteButton = ({ clientId }: Props) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red" disabled={isDeleting}>
+          <Button variant="soft" color="red" size="3" disabled={isDeleting}>
             Delete client
             {isDeleting && <Spinner />}
           </Button>
@@ -44,12 +44,17 @@ const ClientDeleteButton = ({ clientId }: Props) => {
           </AlertDialog.Description>
           <Flex mt="4" gap="3" justify="end">
             <AlertDialog.Cancel>
-              <Button variant="soft" color="gray">
+              <Button variant="soft" color="gray" size="3">
                 Cancel
               </Button>
             </AlertDialog.Cancel>
             <AlertDialog.Action>
-              <Button color="red" onClick={deleteClient}>
+              <Button
+                variant="soft"
+                color="red"
+                size="3"
+                onClick={deleteClient}
+              >
                 Delete Issue
               </Button>
             </AlertDialog.Action>

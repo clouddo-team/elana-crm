@@ -1,29 +1,51 @@
 "use client";
 
-import { Card } from "@radix-ui/themes";
-import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
-import React from "react";
+import { Card, Text } from "@radix-ui/themes";
+import {
+  ResponsiveContainer,
+  BarChart,
+  XAxis,
+  YAxis,
+  Bar,
+  Tooltip,
+} from "recharts";
+import React, { useEffect, useState } from "react";
 
-interface Props {
-  active: number;
-  inactive: number;
+interface DealChartData {
+  date: string;
+  count: number;
 }
 
-const ClientChart = ({ active, inactive }: Props) => {
-  const data = [
-    { label: "Active", value: active },
-    { label: "Inactive", value: inactive },
-  ];
+const ClientChart = () => {
+  const [data, setData] = useState<DealChartData[]>([]);
+
+  useEffect(() => {
+    const fetchDeals = async () => {
+      try {
+        const res = await fetch("/api/logs/by-date");
+        const json = await res.json();
+        setData(json);
+      } catch (err) {
+        console.error("Failed to fetch deal chart data", err);
+      }
+    };
+
+    fetchDeals();
+  }, []);
 
   return (
     <Card>
+      <Text size="3" weight="bold" mb="2">
+        Deals in the Last 30 Days
+      </Text>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
-          <XAxis dataKey="label" />
+          <XAxis dataKey="date" tick={{ fontSize: 12 }} />
           <YAxis />
+          <Tooltip />
           <Bar
-            dataKey="value"
-            barSize={60}
+            dataKey="count"
+            barSize={40}
             style={{ fill: "var(--accent-9)" }}
           />
         </BarChart>

@@ -56,4 +56,4 @@ export async function POST(
   });
 
   return NextResponse.json(newDeal, { status: 201 });
-}
+} 

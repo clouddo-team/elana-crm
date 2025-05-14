@@ -2,17 +2,14 @@
 
 import { Flex, Table } from "@radix-ui/themes";
 import { useState } from "react";
-import ClientDeleteButton from "../_components/ClientDeleteButton";
-import ClientEditButton from "../_components/ClientEditButton";
-import { deal_status, deal_type } from "@prisma/client";
 
 interface Deal {
   id: number;
   eurosys_id: number;
   date: Date;
-  settlement: Date;
-  status: deal_status;
-  order_type: deal_type;
+  settlement: Date | null;
+  status: string | null;
+  order_type: string;
   code: string;
   currency: string;
   number: number;
@@ -25,14 +22,14 @@ const ClientDeals = ({
   initialDeals,
   clientId,
 }: {
-  initialDeals: Deal[];
+  initialDeals: Deal[] | null;
   clientId: number;
 }) => {
-  const [deals] = useState(initialDeals);
+  const [deals] = useState<Deal[]>(initialDeals || []);
 
   return (
     <Flex direction="column" gap="4" width="100%">
-      {deals.length === 0 ? (
+      {!deals || deals.length === 0 ? (
         <Flex gap="4" my="4" justify="center">
           <p>There are no deals for this client.</p>
         </Flex>
@@ -64,7 +61,7 @@ const ClientDeals = ({
                     className={`px-2 py-1 rounded-full text-xs ${
                       deal.status === "VALIDATED"
                         ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
                     }`}
                   >
                     {deal.status}
@@ -85,18 +82,15 @@ const ClientDeals = ({
                 </Table.Cell>
                 <Table.Cell>{deal.platform}</Table.Cell>
                 <Table.Cell>
-                  {new Date(deal.settlement).toLocaleDateString()}
+                  {deal.settlement
+                    ? new Date(deal.settlement).toLocaleDateString()
+                    : "N/A"}
                 </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table.Root>
       )}
-
-      <Flex gap="4" mt="4">
-        <ClientDeleteButton clientId={clientId} />
-        <ClientEditButton clientId={clientId} />
-      </Flex>
     </Flex>
   );
 };

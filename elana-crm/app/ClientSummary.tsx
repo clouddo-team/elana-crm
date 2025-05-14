@@ -1,7 +1,9 @@
+"use client";
+
 import { client_status } from "@prisma/client";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   active: number;
@@ -9,28 +11,55 @@ interface Props {
 }
 
 const ClientSummary = ({ active, inactive }: Props) => {
-  const containers: {
-    label: string;
-    value: number;
-    status: client_status;
-  }[] = [
-    { label: "Active Clients", value: active, status: "ACTIVE" },
+  const [realClientsMTD, setRealClientsMTD] = useState<number>(0);
+  const [realClientsLast30Days, setRealClientsLast30Days] = useState<number>(0);
+  const [expiredIDsLastWeek, setExpiredIDsLastWeek] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchRealClientsMTD = async () => {
+      const res = await fetch("/api/clients/mtd");
+      const data = await res.json();
+      setRealClientsMTD(data.realClientsMTD);
+    };
+
+    const fetchRealClientsLast30Days = async () => {
+      const res = await fetch("/api/clients/last30days");
+      const data = await res.json();
+      setRealClientsLast30Days(data.realClientsLast30Days);
+    };
+
+    const fetchExpiredIDsLastWeek = async () => {
+      const res = await fetch("/api/clients/expired_id_last_7_days");
+      const data = await res.json();
+      setExpiredIDsLastWeek(data.expiredIDsLastWeek);
+    };
+
+    fetchRealClientsMTD();
+    fetchRealClientsLast30Days();
+    fetchExpiredIDsLastWeek();
+  }, []);
+
+  const containers = [
     {
-      label: "Inactive Clients",
-      value: inactive,
-      status: "INACTIVE",
+      label: "Real Clients Created MTD",
+      value: realClientsMTD,
+    },
+    {
+      label: "Real Clients Created Last 30 Days",
+      value: realClientsLast30Days,
+    },
+    {
+      label: "Real Clients with Expired ID Last Week",
+      value: expiredIDsLastWeek,
     },
   ];
 
   return (
-    <Flex gap="4">
+    <Flex gap="4" wrap="wrap">
       {containers.map((container) => (
         <Card key={container.label}>
           <Flex direction="column" gap="1">
-            <Link
-              className="text-sm font-medium"
-              href={`/clients/?status=${container.status}`}
-            >
+            <Link className="text-sm font-medium" href={`/clients`}>
               {container.label}
             </Link>
             <Text size="5" className="font-bold">
