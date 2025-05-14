@@ -1,21 +1,23 @@
-import { TextField } from "@radix-ui/themes";
+"use client";
+
+import React from "react";
 
 interface ClientSearchFilterProps {
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ClientSearchFilter = ({
+const ClientSearchFilter: React.FC<ClientSearchFilterProps> = ({
   searchTerm,
   onSearchChange,
-}: ClientSearchFilterProps) => {
+}) => {
   return (
     <input
       type="text"
       placeholder="Search clients..."
       value={searchTerm}
       onChange={onSearchChange}
-      className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="p-2 border rounded-md mb-4 max-w-xs"
     />
   );
 };

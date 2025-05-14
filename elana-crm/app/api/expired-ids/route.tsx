@@ -16,6 +16,14 @@ export async function GET(request: NextRequest) {
           lte: today,
         },
       },
+      select: {
+        eurosys_id: true,
+        name: true,
+        email: true,
+        phone: true,
+        country: true,
+        id_expiry_date: true,
+      },
       orderBy: {
         id_expiry_date: "asc",
       },

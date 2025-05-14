@@ -79,7 +79,7 @@ model client {
   representative    String        @default("Dimitar") @db.VarChar(255)
   pro_retail        String        @default("retail") @db.VarChar(50)
   comment           String?       @db.Text
-  updatedAt         DateTime      @default(now()) @updatedAt
+  id_expiry_date    DateTime      @default(now())
 
   deals deals[] @relation("ClientDeals")
 }
