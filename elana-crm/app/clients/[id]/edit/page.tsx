@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import dynamic from "next/dynamic";
 import ClientFormSkeleton from "../../_components/ClientFormSkeleton";
+
 const ClientForm = dynamic(() => import("../../_components/ClientEditForm"), {
   loading: () => <ClientFormSkeleton />,
 });
@@ -13,8 +14,10 @@ interface Props {
 
 const EditClientPage = async ({ params }: Props) => {
   const { id } = await params;
+  const clientId = parseInt(id);
+
   const client = await prisma.client.findUnique({
-    where: { id: parseInt(id) },
+    where: { eurosys_id: clientId },
   });
 
   if (!client) notFound();

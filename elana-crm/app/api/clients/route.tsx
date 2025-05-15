@@ -10,9 +10,22 @@ export async function POST(request: NextRequest) {
 
   const newClient = await prisma.client.create({
     data: {
-      first_name: validation.data.first_name,
-      last_name: validation.data.last_name,
+      name: validation.data.name,
+      counterpart_name: validation.data.counterpart_name || "",
+      counterpart_id: validation.data.counterpart_id || "",
+      risk_profile: validation.data.risk_profile,
+      status: validation.data.status,
+      type: validation.data.type as "individual" | "business",
+      phone: validation.data.phone,
+      country: validation.data.country,
+      address: validation.data.address || "",
       email: validation.data.email,
+      ic_city: validation.data.ic_city,
+      registration_date: validation.data.registration_date,
+      language: validation.data.language,
+      representative: validation.data.representative,
+      pro_retail: validation.data.pro_retail,
+      comment: validation.data.comment,
     },
   });
 
@@ -24,20 +37,36 @@ export async function GET(request: NextRequest) {
   const page = parseInt(searchParams.get("page") || "1");
   const size = parseInt(searchParams.get("size") || "10");
   const status = searchParams.get("status") || "all";
-  const orderBy = searchParams.get("orderBy") || "date_joined";
+  const orderBy = searchParams.get("orderBy") || "registration_date";
   const order = searchParams.get("order") === "asc" ? "asc" : "desc";
   const search = searchParams.get("search") || "";
   const skip = (page - 1) * size;
 
-  const validOrderFields = ["first_name", "last_name", "date_joined", "email"];
+  const validOrderFields = [
+    "name",
+    "counterpart_name",
+    "counterpart_id",
+    "risk_profile",
+    "status",
+    "type",
+    "phone",
+    "country",
+    "address",
+    "email",
+    "ic_city",
+    "registration_date",
+    "language",
+    "representative",
+    "pro_retail",
+    "updatedAt",
+  ];
   const safeOrderBy = validOrderFields.includes(orderBy)
     ? orderBy
-    : "date_joined";
+    : "registration_date";
 
   const statusMap = {
     active: "ACTIVE",
     inactive: "INACTIVE",
-    pending_payment: "PENDING_PAYMENT",
   } as const;
 
   const normalizedStatus =
@@ -52,12 +81,27 @@ export async function GET(request: NextRequest) {
     ...(search && {
       OR: [
         {
-          first_name: {
+          name: {
             contains: search,
           },
         },
         {
-          last_name: {
+          counterpart_name: {
+            contains: search,
+          },
+        },
+        {
+          email: {
+            contains: search,
+          },
+        },
+        {
+          country: {
+            contains: search,
+          },
+        },
+        {
+          address: {
             contains: search,
           },
         },

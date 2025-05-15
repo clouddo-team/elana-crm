@@ -9,7 +9,6 @@ const statuses: { label: string; value: client_status | "all" }[] = [
   { label: "All", value: "all" },
   { label: "Active", value: "ACTIVE" },
   { label: "Inactive", value: "INACTIVE" },
-  { label: "Pending Payment", value: "PENDING_PAYMENT" },
 ];
 
 const StatusFilter = () => {

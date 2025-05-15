@@ -9,7 +9,8 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await request.json();
   const validation = clientSchema.safeParse(body);
@@ -17,20 +18,25 @@ export async function PATCH(
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  const { first_name, last_name, email, status } = body;
+  const { name, email, status } = body;
   const params = await context.params;
   const clientId = parseInt(params.id);
-  const client = await prisma.client.findUnique({ where: { id: clientId } });
+
+  const client = await prisma.client.findUnique({
+    where: { eurosys_id: clientId },
+  });
 
   if (!client)
     return NextResponse.json({ error: "Client not found" }, { status: 404 });
 
   const updatedClient = await prisma.client.update({
-    where: { id: clientId },
-    data: { first_name, last_name, email, status },
+    where: { eurosys_id: clientId },
+    data: { name, email, status },
   });
+
   return NextResponse.json(updatedClient);
 }
+
 
 export async function DELETE(
   request: NextRequest,
@@ -41,11 +47,11 @@ export async function DELETE(
 
   const params = await context.params;
   const clientId = parseInt(params.id);
-  const client = await prisma.client.findUnique({ where: { id: clientId } });
+  const client = await prisma.client.findUnique({ where: { eurosys_id: clientId } });
 
   if (!client)
     return NextResponse.json({ error: "Client not found" }, { status: 404 });
 
-  await prisma.client.delete({ where: { id: clientId } });
+  await prisma.client.delete({ where: { eurosys_id: clientId } });
   return NextResponse.json({ success: true });
 }

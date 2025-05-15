@@ -1,4 +1,3 @@
-// app/api/mailerlite/add-subscriber/route.tsx
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {

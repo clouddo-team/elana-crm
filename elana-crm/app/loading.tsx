@@ -1,3 +1,5 @@
+"use client";
+
 export default function Loading() {
-  return <p>Loading clients...</p>;
+  return <div>Loading...</div>;
 }

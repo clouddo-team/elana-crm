@@ -1,27 +1,42 @@
-import React from "react";
 import { prisma } from "@/lib/prisma";
-import { Flex, Heading } from "@radix-ui/themes";
-import ClientLogs from "./ClientLogs";
+import { Box, Card, Flex, Heading, Separator } from "@radix-ui/themes";
+import ClientDeleteButton from "../_components/ClientDeleteButton";
+import ClientEditButton from "../_components/ClientEditButton";
+import ClientDeals from "./ClientDeals";
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-const ClientLogPage = async ({ params }: Props) => {
+const ClientDealsPage = async ({ params }: Props) => {
   const { id } = await params;
   const clientId = parseInt(id);
 
-  const log = await prisma.clientlog.findMany({
-    where: { clientId },
-    orderBy: { log_created: "asc" },
+  const deals = await prisma.deals.findMany({
+    where: { eurosys_id: clientId },
+    orderBy: { date: "desc" },
+  });
+
+  const client = await prisma.client.findUnique({
+    where: { eurosys_id: clientId },
   });
 
   return (
-    <Flex direction="column" align="center" justify="center" gap="4">
-      <Heading>Logs for Client {id}</Heading>
-      <ClientLogs initialLogs={log} clientId={clientId} />
-    </Flex>
+    <Box p="6" maxWidth="1000px" mx="auto">
+      <Card size="3" mb="4">
+        <Flex justify="between" align="center" gap="4">
+          <Heading size="5">{client?.name || `Client ${clientId}`}</Heading>
+          <Flex gap="3">
+            <ClientEditButton clientId={clientId} />
+            <ClientDeleteButton clientId={clientId} />
+          </Flex>
+        </Flex>
+
+        <Separator my="4" />
+      </Card>
+      <ClientDeals initialDeals={deals} clientId={clientId} />
+    </Box>
   );
 };
 
-export default ClientLogPage;
+export default ClientDealsPage;

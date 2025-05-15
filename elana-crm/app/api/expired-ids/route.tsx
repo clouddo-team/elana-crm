@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setHours(23, 59, 59, 999);
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1");
   const size = parseInt(searchParams.get("size") || "10");
@@ -15,6 +15,15 @@ export async function GET(request: NextRequest) {
         id_expiry_date: {
           lte: today,
         },
+      },
+      select: {
+        eurosys_id: true,
+        name: true,
+        email: true,
+        phone: true,
+        country: true,
+        id_expiry_date: true,
+        emailedExpiredId: true,
       },
       orderBy: {
         id_expiry_date: "asc",

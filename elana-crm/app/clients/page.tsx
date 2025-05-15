@@ -4,6 +4,7 @@ import { Flex } from "@radix-ui/themes";
 const ClientsPage = () => {
   return (
     <Flex direction="column" gap="3">
+      <h1 className="text-2xl font-bold mb-4">Clients</h1>
       <ClientActions />
       <ClientTable />
     </Flex>
