@@ -17,35 +17,16 @@ export async function GET(request: NextRequest) {
   const bgt = searchParams.get("bgt") ?? "all";
   const f359 = searchParams.get("f359") ?? "all";
 
-  const whereClause: any = {};
-
-  if (search) {
-    whereClause.OR = [
-      {
-        name: {
-          contains: search,
-        },
-      },
-      {
-        email: {
-          contains: search,
-        },
-      },
-    ];
-  }
-
-  if (egt !== "all") {
-    whereClause.is_egt = egt === "yes";
-  }
-
-  if (bgt !== "all") {
-    whereClause.is_bgt = bgt === "yes";
-  }
-
-  if (f359 !== "all") {
-    whereClause.is_f359 = f359 === "yes";
-  }
-
+  const whereClause = {
+    ...(search
+      ? {
+          OR: [{ name: { contains: search } }, { email: { contains: search } }],
+        }
+      : {}),
+    ...(egt !== "all" ? { is_egt: egt === "yes" } : {}),
+    ...(bgt !== "all" ? { is_bgt: bgt === "yes" } : {}),
+    ...(f359 !== "all" ? { is_f359: f359 === "yes" } : {}),
+  };
   const [clients, total] = await Promise.all([
     prisma.demo_client.findMany({
       skip,

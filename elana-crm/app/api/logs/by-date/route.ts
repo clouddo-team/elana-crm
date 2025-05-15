@@ -4,16 +4,12 @@ import { NextResponse } from "next/server";
 export async function GET() {
   const now = new Date();
 
-  // First day of current month (e.g. May 1, 2025)
   const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
-  // First day of 5 months ago (e.g. Dec 1, 2024)
   const startDate = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() - 5, 1);
 
-  // Last millisecond of the current month (e.g. May 31, 2025, 23:59:59.999)
   const endDate = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 0, 23, 59, 59, 999);
 
-  // Get deals between startDate and endDate
   const deals = await prisma.deals.findMany({
     where: {
       date: {
@@ -26,16 +22,14 @@ export async function GET() {
     },
   });
 
-  // Group by "YYYY-MM"
   const grouped: Record<string, number> = {};
   for (const deal of deals) {
     const monthStr = deal.date.toISOString().slice(0, 7);
     grouped[monthStr] = (grouped[monthStr] || 0) + 1;
   }
 
-  // Build the last 6 months: Dec -> May (if current is May)
   const months: string[] = [];
-  let tempDate = new Date(startDate);
+  const tempDate = new Date(startDate);
   for (let i = 0; i < 6; i++) {
     const month = tempDate.toISOString().slice(0, 7);
     months.push(month);

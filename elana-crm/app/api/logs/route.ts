@@ -3,9 +3,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const clientId = parseInt(params.id);
+  const { id } = await params;
+  const clientId = parseInt(id);
+
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1");
   const size = parseInt(searchParams.get("size") || "10");
@@ -34,9 +36,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const clientId = parseInt(params.id);
+  const { id } = await params;
+  const clientId = parseInt(id);
+
   const body = await request.json();
 
   const newDeal = await prisma.deals.create({

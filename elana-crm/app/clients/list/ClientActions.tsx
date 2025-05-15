@@ -22,7 +22,7 @@ const ClientActions = () => {
     params.set("search", debouncedSearch);
     params.set("page", "1");
     router.push(`?${params.toString()}`);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, router, searchParams]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

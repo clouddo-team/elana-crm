@@ -3,9 +3,11 @@ import { prisma } from "@/lib/prisma";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const clientId = parseInt(params.id);
+  const { id } = await params; 
+  const clientId = parseInt(id);
+
   const { searchParams } = new URL(request.url);
   const page = parseInt(searchParams.get("page") || "1");
   const size = parseInt(searchParams.get("size") || "10");
@@ -13,19 +15,13 @@ export async function GET(
 
   const [deals, total] = await Promise.all([
     prisma.deals.findMany({
-      where: {
-        eurosys_id: clientId,
-      },
-      orderBy: {
-        date: "desc",
-      },
+      where: { eurosys_id: clientId },
+      orderBy: { date: "desc" },
       skip,
       take: size,
     }),
     prisma.deals.count({
-      where: {
-        eurosys_id: clientId,
-      },
+      where: { eurosys_id: clientId },
     }),
   ]);
 
@@ -34,9 +30,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const clientId = parseInt(params.id);
+  const { id } = await params; // await here too!
+  const clientId = parseInt(id);
+
   const body = await request.json();
 
   const newDeal = await prisma.deals.create({
@@ -56,4 +54,6 @@ export async function POST(
   });
 
   return NextResponse.json(newDeal, { status: 201 });
-} 
+}
+
+

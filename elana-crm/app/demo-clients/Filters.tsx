@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, DropdownMenu, Flex, Text } from "@radix-ui/themes";
-import { useSearchParams, useRouter } from "next/navigation";
+import { Button, DropdownMenu, Flex } from "@radix-ui/themes";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ClientSearchFilter from "../../components/ClientSearchFilter";
 import { useDebounce } from "../utils/useDebounce";
@@ -38,7 +38,7 @@ const Filters = ({
     params.set("search", debouncedSearch);
     params.set("page", "1");
     router.push(`?${params.toString()}`);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, router, searchParams]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

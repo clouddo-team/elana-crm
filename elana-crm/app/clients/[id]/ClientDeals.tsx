@@ -20,7 +20,6 @@ interface Deal {
 
 const ClientDeals = ({
   initialDeals,
-  clientId,
 }: {
   initialDeals: Deal[] | null;
   clientId: number;

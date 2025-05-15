@@ -12,8 +12,13 @@ import { useEffect, useState } from "react";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
+type PieDataItem = {
+  name: string;
+  value: number;
+};
+
 export default function DemoClientPieChart() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<PieDataItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

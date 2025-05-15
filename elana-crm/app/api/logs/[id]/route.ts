@@ -11,7 +11,7 @@ export async function DELETE(
     return new Response("Invalid log ID", { status: 400 });
   }
 
-  await prisma.clientlog.delete({
+  await prisma.deals.delete({
     where: { id: logId },
   });
 
