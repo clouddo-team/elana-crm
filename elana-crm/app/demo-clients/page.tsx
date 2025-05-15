@@ -1,25 +1,3 @@
-// "use client";
-
-// import { useState } from "react";
-// import { Flex } from "@radix-ui/themes";
-// import DemoClientTable from "./DemoClientsTable";
-// import Filters from "./Filters";
-
-// export default function DemoClientsPage() {
-//   const [showPhone, setShowPhone] = useState(true);
-
-//   return (
-//     <Flex direction="column" gap="3">
-//       <h1 className="text-2xl font-bold mb-4">Demo Clients</h1>
-//       <Filters
-//         showPhone={showPhone}
-//         onTogglePhone={() => setShowPhone((prev) => !prev)}
-//       />
-//       <DemoClientTable showPhone={showPhone} />
-//     </Flex>
-//   );
-// }
-
 "use client";
 
 import { useState } from "react";

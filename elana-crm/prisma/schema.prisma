@@ -80,6 +80,7 @@ model client {
   risk_profile      String        @default("no") @db.VarChar(10)
   type              client_type   @default(individual)
   id_expiry_date    DateTime      @default(now())
+  emailedExpiredId  Boolean       @default(false)
   deals             deals[]       @relation("ClientDeals")
 }
 

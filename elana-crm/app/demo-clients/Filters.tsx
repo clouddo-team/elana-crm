@@ -11,6 +11,7 @@ const ALL_COLUMNS = [
   { key: "email", label: "Email" },
   { key: "phone", label: "Phone" },
   { key: "country", label: "Country" },
+  { key: "demo_validity", label: "Demo Validity" },
   { key: "city", label: "City" },
   { key: "language", label: "Language" },
   { key: "is_egt", label: "EGT" },

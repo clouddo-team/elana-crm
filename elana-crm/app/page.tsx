@@ -1,9 +1,10 @@
 import { Box, Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
-import ClientSummary from "./ClientSummary";
-import LastClientsChart from "./LastClientsChart";
-import LastDealsChart from "./LastDealsChart";
-import LatestClient from "./LatestClient";
+import ClientSummary from "../components/ClientSummary";
+import LastClientsChart from "../components/LastClientsChart";
+import LastDealsChart from "../components/LastDealsChart";
+import DemoClientSummary from "../components/DemoClientSummary";
+import DemoClientPieChart from "../components/DemoClientPieChart";
 
 export default async function Home() {
   return (
@@ -22,7 +23,12 @@ export default async function Home() {
       </Flex>
       <Flex direction="column" gap="5" mt="10">
         <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Demo Clients</h2>
-        <LatestClient />
+        <Flex direction="row" gap="2" align="center" justify="center">
+          <DemoClientSummary />
+          <Flex justify="center" align="center">
+            <DemoClientPieChart />
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

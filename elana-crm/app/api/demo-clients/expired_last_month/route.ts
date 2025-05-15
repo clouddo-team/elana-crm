@@ -4,15 +4,16 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   const today = new Date();
   const thirtyDaysAgo = new Date(today);
-  thirtyDaysAgo.setDate(today.getDate() - 30); 
-  const realClientsLast30Days = await prisma.client.findMany({
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+
+  const demoClientsLast30Days = await prisma.demo_client.findMany({
     where: {
-      registration_date: {
+      demo_validity: {
         gte: thirtyDaysAgo,
         lte: today, 
       },
     },
   });
 
-  return NextResponse.json({ realClientsLast30Days: realClientsLast30Days.length });
+  return NextResponse.json({ demoClientsLast30Days: demoClientsLast30Days.length });
 }

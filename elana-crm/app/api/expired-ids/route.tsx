@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
         phone: true,
         country: true,
         id_expiry_date: true,
+        emailedExpiredId: true,
       },
       orderBy: {
         id_expiry_date: "asc",

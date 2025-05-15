@@ -11,7 +11,6 @@ export async function GET() {
   }
 
   try {
-    // Send GET request to MailerLite API to get all campaigns
     const response = await fetch(
       "https://connect.mailerlite.com/api/campaigns",
       {

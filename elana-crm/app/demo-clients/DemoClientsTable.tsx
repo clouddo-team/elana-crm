@@ -11,7 +11,7 @@ interface DemoClient {
   name: string;
   phone: string;
   gdpr: boolean;
-  demo_validity: string;
+  demo_validity: Date;
   country: string;
   city: string;
   language: string;
@@ -96,6 +96,9 @@ const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
             {shouldShow("country") && (
               <Table.ColumnHeaderCell>Country</Table.ColumnHeaderCell>
             )}
+            {shouldShow("demo_validity") && (
+              <Table.ColumnHeaderCell>Validity</Table.ColumnHeaderCell>
+            )}
             {shouldShow("city") && (
               <Table.ColumnHeaderCell>City</Table.ColumnHeaderCell>
             )}
@@ -121,6 +124,11 @@ const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
               {shouldShow("phone") && <Table.Cell>{client.phone}</Table.Cell>}
               {shouldShow("country") && (
                 <Table.Cell>{client.country}</Table.Cell>
+              )}
+              {shouldShow("demo_validity") && (
+                <Table.Cell>
+                  {new Date(client.demo_validity).toDateString()}
+                </Table.Cell>
               )}
               {shouldShow("city") && <Table.Cell>{client.city}</Table.Cell>}
               {shouldShow("language") && (

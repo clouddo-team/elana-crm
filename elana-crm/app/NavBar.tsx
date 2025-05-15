@@ -6,12 +6,13 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
-import DarkModeSwitch from "./DarkModeSwitch";
+import DarkModeSwitch from "../components/DarkModeSwitch";
 import { Flex } from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
   const { status, data: session } = useSession();
+
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Clients", href: "/clients" },
