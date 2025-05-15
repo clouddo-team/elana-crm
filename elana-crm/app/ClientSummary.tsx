@@ -1,16 +1,10 @@
 "use client";
 
-import { client_status } from "@prisma/client";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface Props {
-  active: number;
-  inactive: number;
-}
-
-const ClientSummary = ({ active, inactive }: Props) => {
+const ClientSummary = () => {
   const [realClientsMTD, setRealClientsMTD] = useState<number>(0);
   const [realClientsLast30Days, setRealClientsLast30Days] = useState<number>(0);
   const [expiredIDsLastWeek, setExpiredIDsLastWeek] = useState<number>(0);

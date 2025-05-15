@@ -1,29 +1,26 @@
-import LatestClient from "./LatestClient";
-import ClientChart from "./ClientChart";
-import { Flex, Grid } from "@radix-ui/themes";
+import { Box, Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
 import ClientSummary from "./ClientSummary";
+import LastClientsChart from "./LastClientsChart";
+import LastDealsChart from "./LastDealsChart";
+import LatestClient from "./LatestClient";
 
 export default async function Home() {
-  const active = await prisma.client.count({
-    where: { status: "ACTIVE" },
-  });
-  const inactive = await prisma.client.count({
-    where: { status: "INACTIVE" },
-  });
-
   return (
     <Flex direction="column" gap="10">
-      {/* Upper Part - Real Clients */}
-      <Flex direction="column" gap="5">
+      <Flex direction="column" gap="5" style={{ marginBottom: "3rem" }}>
         <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Real Clients</h2>
-        <ClientSummary active={active} inactive={inactive} />
-        <ClientChart />
+        <ClientSummary />
+        <Flex direction="row" gap="4" justify="center" align="center">
+          <Box width="50%">
+            <LastDealsChart />
+          </Box>
+          <Box width="50%">
+            <LastClientsChart />
+          </Box>
+        </Flex>
       </Flex>
-
-      {/* Lower Part - Demo Clients */}
-      <Flex direction="column" gap="5">
+      <Flex direction="column" gap="5" mt="10">
         <h2 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Demo Clients</h2>
         <LatestClient />
       </Flex>
