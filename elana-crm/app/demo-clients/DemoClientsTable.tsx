@@ -106,13 +106,13 @@ const DemoClientTable = ({ visibleColumns }: DemoClientTableProps) => {
               <Table.ColumnHeaderCell>Language</Table.ColumnHeaderCell>
             )}
             {shouldShow("is_egt") && (
-              <Table.ColumnHeaderCell>EGT</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Platform 1</Table.ColumnHeaderCell>
             )}
             {shouldShow("is_bgt") && (
-              <Table.ColumnHeaderCell>BGT</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Platform 2</Table.ColumnHeaderCell>
             )}
             {shouldShow("is_f359") && (
-              <Table.ColumnHeaderCell>F359</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Platform 3</Table.ColumnHeaderCell>
             )}
           </Table.Row>
         </Table.Header>

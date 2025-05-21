@@ -1,14 +1,10 @@
 "use client";
 
-import ClientActions from "./list/ClientActions";
-import ClientTable from "./ClientTable";
 import { Flex } from "@radix-ui/themes";
-import { useSearchParams } from "next/navigation";
+import ClientTable from "./ClientTable";
+import ClientActions from "./list/ClientActions";
 
 const ClientsPage = () => {
-  const searchParams = useSearchParams();
-  const currentPage = searchParams.get("page") || "1";
-
   return (
     <Flex direction="column" gap="3">
       <h1 className="text-2xl font-bold mb-4">Clients</h1>
