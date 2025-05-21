@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import Link from "../../components/Link";
 import ClientStatusBadge from "../../components/ClientStatusBadge";
 import Pagination from "../../components/Pagination";
 import { client_status } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface Client {
   eurosys_id: number;
@@ -30,6 +31,7 @@ interface Client {
 }
 
 const ClientTable = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1");
   const pageSize = 10;
@@ -46,10 +48,11 @@ const ClientTable = () => {
     params.set("orderBy", field);
     params.set("order", newOrder);
     if (!params.get("status")) params.set("status", "all");
-    window.history.pushState(null, "", `?${params.toString()}`);
+    router.push("?" + params.toString());
   };
 
   useEffect(() => {
+    console.log("Fetching clients for page", currentPage);
     const fetchClients = async () => {
       try {
         const res = await fetch(
@@ -65,7 +68,7 @@ const ClientTable = () => {
       }
     };
     fetchClients();
-  }, [currentPage, statusFilter, orderBy, order, searchTerm]);
+  }, [currentPage, statusFilter, orderBy, order, searchTerm, pageSize]);
 
   return (
     <Flex direction="column" gap="4">

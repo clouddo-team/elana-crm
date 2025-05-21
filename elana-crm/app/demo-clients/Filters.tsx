@@ -34,10 +34,13 @@ const Filters = ({
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("search", debouncedSearch);
-    params.set("page", "1");
-    router.push(`?${params.toString()}`);
+    const currentSearch = searchParams.get("search") || "";
+    if (currentSearch !== debouncedSearch) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("search", debouncedSearch);
+      params.set("page", "1");
+      router.push(`?${params.toString()}`);
+    }
   }, [debouncedSearch, router, searchParams]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
