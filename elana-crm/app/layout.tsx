@@ -35,8 +35,12 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Theme>
             <AuthProvider>
-              <NavBar />
-              <main className="m-3">{children}</main>
+              <div className="flex min-h-screen overflow-hidden">
+                <NavBar />
+                <main className="ml-60 p-6 flex-grow m-3 overflow-scroll">
+                  {children}
+                </main>
+              </div>
             </AuthProvider>
           </Theme>
         </ThemeProvider>

@@ -19,9 +19,11 @@ const ClientActions = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("search", debouncedSearch);
-    params.set("page", "1");
-    router.push(`?${params.toString()}`);
+    if (params.get("search") !== debouncedSearch) {
+      params.set("search", debouncedSearch);
+      params.set("page", "1");
+      router.push(`?${params.toString()}`);
+    }
   }, [debouncedSearch, router, searchParams]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

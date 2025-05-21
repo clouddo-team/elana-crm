@@ -1,6 +1,9 @@
-import ClientActions from "./list/ClientActions";
-import ClientTable from "./ClientTable";
+"use client";
+
 import { Flex } from "@radix-ui/themes";
+import ClientTable from "./ClientTable";
+import ClientActions from "./list/ClientActions";
+
 const ClientsPage = () => {
   return (
     <Flex direction="column" gap="3">

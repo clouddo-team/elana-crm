@@ -34,10 +34,13 @@ const Filters = ({
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("search", debouncedSearch);
-    params.set("page", "1");
-    router.push(`?${params.toString()}`);
+    const currentSearch = searchParams.get("search") || "";
+    if (currentSearch !== debouncedSearch) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("search", debouncedSearch);
+      params.set("page", "1");
+      router.push(`?${params.toString()}`);
+    }
   }, [debouncedSearch, router, searchParams]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +75,7 @@ const Filters = ({
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <Button variant="outline" size="3" mb="4">
-            Filter EGT
+            Filter Platform 1
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
@@ -95,7 +98,7 @@ const Filters = ({
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <Button variant="outline" size="3" mb="4">
-            Filter BGT
+            Filter Platform 2
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
@@ -118,7 +121,7 @@ const Filters = ({
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <Button variant="outline" size="3" mb="4">
-            Filter F359
+            Filter Platform 3
           </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>

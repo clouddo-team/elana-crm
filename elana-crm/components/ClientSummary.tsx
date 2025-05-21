@@ -49,7 +49,7 @@ const ClientSummary = () => {
   ];
 
   return (
-    <Flex gap="4" wrap="wrap">
+    <Flex gap="7" wrap="wrap">
       {containers.map((container) => (
         <Card key={container.label}>
           <Flex direction="column" gap="1">

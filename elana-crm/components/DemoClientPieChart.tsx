@@ -28,9 +28,9 @@ export default function DemoClientPieChart() {
 
       if (total > 0) {
         setData([
-          { name: "EGT", value: egt },
-          { name: "BGT", value: bgt },
-          { name: "F359", value: f359 },
+          { name: "Platform 1", value: egt },
+          { name: "Platform 2", value: bgt },
+          { name: "Platform 3", value: f359 },
         ]);
       }
     };
