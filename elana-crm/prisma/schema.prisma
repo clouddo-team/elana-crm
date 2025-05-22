@@ -82,6 +82,7 @@ model client {
   id_expiry_date    DateTime      @default(now())
   emailedExpiredId  Boolean       @default(false)
   deals             deals[]       @relation("ClientDeals")
+  log               log[]
 }
 
 model deals {
@@ -118,6 +119,16 @@ model demo_client {
   is_egt           Boolean
   is_bgt           Boolean
   is_f359          Boolean
+}
+
+model log {
+  id         Int      @id @default(autoincrement())
+  log        String   @db.Text
+  date       DateTime @default(now())
+  eurosys_id Int
+  client     client   @relation(fields: [eurosys_id], references: [eurosys_id], onDelete: Cascade)
+
+  @@index([eurosys_id], map: "log_eurosys_id_fkey")
 }
 
 enum client_status {

@@ -20,6 +20,7 @@ export async function POST() {
         emailedExpiredId: false,
       },
       select: {
+        eurosys_id: true, 
         email: true,
         name: true,
       },
@@ -31,7 +32,37 @@ export async function POST() {
       });
     }
 
-    const groupId = "153555924407027612";
+    const groupRes = await fetch(
+      "https://connect.mailerlite.com/api/groups",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: `Expired ID Notification - ${new Date().toISOString()}`,
+        }),
+      }
+    );
+
+    if (!groupRes.ok) {
+      const errorData = await groupRes.json();
+      return NextResponse.json(
+        { error: "Failed to create group", details: errorData },
+        { status: groupRes.status }
+      );
+    }
+
+    const groupData = await groupRes.json();
+    const groupId = groupData.data?.id;
+
+    if (!groupId) {
+      return NextResponse.json(
+        { error: "Group ID missing from response" },
+        { status: 500 }
+      );
+    }
 
     for (const client of clientsToEmail) {
       const subscriberRes = await fetch(
@@ -137,15 +168,14 @@ export async function POST() {
       );
     }
 
-    const emails = clientsToEmail.map((c) => c.email);
-    await prisma.client.updateMany({
-      where: {
-        email: { in: emails },
-      },
-      data: {
-        emailedExpiredId: true,
-      },
-    });
+    await Promise.all(
+      clientsToEmail.map((client) =>
+      prisma.client.update({
+      where: { eurosys_id: client.eurosys_id },
+      data: { emailedExpiredId: true },
+    })
+    )
+    );
 
     return NextResponse.json({
       message: "Subscribers added, campaign created and sent successfully",

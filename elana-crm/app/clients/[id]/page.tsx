@@ -3,6 +3,8 @@ import { Box, Card, Flex, Heading, Separator } from "@radix-ui/themes";
 import ClientDeleteButton from "../_components/ClientDeleteButton";
 import ClientEditButton from "../_components/ClientEditButton";
 import ClientDeals from "./ClientDeals";
+import ClientLogs from "./ClientLogs";
+import AddLogForm from "./_components/AddLogForm";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -12,14 +14,17 @@ const ClientDealsPage = async ({ params }: Props) => {
   const { id } = await params;
   const clientId = parseInt(id);
 
-  const deals = await prisma.deals.findMany({
-    where: { eurosys_id: clientId },
-    orderBy: { date: "desc" },
-  });
-
-  const client = await prisma.client.findUnique({
-    where: { eurosys_id: clientId },
-  });
+  const [deals, client, logs] = await Promise.all([
+    prisma.deals.findMany({
+      where: { eurosys_id: clientId },
+      orderBy: { date: "desc" },
+    }),
+    prisma.client.findUnique({ where: { eurosys_id: clientId } }),
+    prisma.log.findMany({
+      where: { eurosys_id: clientId },
+      orderBy: { date: "desc" },
+    }),
+  ]);
 
   return (
     <Box p="6" maxWidth="1000px" mx="auto">
@@ -34,7 +39,11 @@ const ClientDealsPage = async ({ params }: Props) => {
 
         <Separator my="4" />
       </Card>
-      <ClientDeals initialDeals={deals} clientId={clientId} />
+      <Flex direction="column" gap="8">
+        <ClientDeals initialDeals={deals} clientId={clientId} />
+        <ClientLogs logs={logs} />
+        <AddLogForm eurosys_id={clientId} />
+      </Flex>
     </Box>
   );
 };

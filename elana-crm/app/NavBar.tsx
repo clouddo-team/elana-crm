@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import classnames from "classnames";
 import { useSession } from "next-auth/react";
 import DarkModeSwitch from "../components/DarkModeSwitch";
-import { ChevronDownIcon, Flex } from "@radix-ui/themes";
+import { Button, ChevronDownIcon, Flex } from "@radix-ui/themes";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
 
 const NavBar = () => {
@@ -118,12 +118,14 @@ const NavBar = () => {
         {status === "loading" && <div>Loading...</div>}
         {status === "authenticated" && (
           <div className="text-sm">
-            <div>{session.user!.name}</div>
+            <div className="mb-2">{session.user!.name}</div>
             <Link
               href={"/api/auth/signout"}
               className="text-blue-600 hover:underline"
             >
-              Sign out
+              <Button variant="soft" color="blue">
+                Sign out
+              </Button>
             </Link>
           </div>
         )}
@@ -132,7 +134,9 @@ const NavBar = () => {
             href={"/api/auth/signin"}
             className="text-blue-600 hover:underline"
           >
-            Login
+            <Button variant="soft" color="blue">
+              Login
+            </Button>
           </Link>
         )}
         <DarkModeSwitch />
