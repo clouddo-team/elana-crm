@@ -20,6 +20,7 @@ export async function POST() {
         emailedExpiredId: false,
       },
       select: {
+        eurosys_id: true, 
         email: true,
         name: true,
       },
@@ -137,15 +138,14 @@ export async function POST() {
       );
     }
 
-    const emails = clientsToEmail.map((c) => c.email);
-    await prisma.client.updateMany({
-      where: {
-        email: { in: emails },
-      },
-      data: {
-        emailedExpiredId: true,
-      },
-    });
+    await Promise.all(
+      clientsToEmail.map((client) =>
+      prisma.client.update({
+      where: { eurosys_id: client.eurosys_id },
+      data: { emailedExpiredId: true },
+    })
+    )
+    );
 
     return NextResponse.json({
       message: "Subscribers added, campaign created and sent successfully",
