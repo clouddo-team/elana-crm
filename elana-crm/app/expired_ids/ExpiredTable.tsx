@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
 import Link from "../../components/Link";
-
+import { MessageSquare } from "lucide-react";
 interface ExpiredClient {
   eurosys_id: number;
   name: string;
@@ -129,6 +129,16 @@ const ExpiredTable = () => {
 
         {sendError && <p style={{ color: "red" }}>{sendError}</p>}
         {sendSuccess && <p style={{ color: "green" }}>{sendSuccess}</p>}
+        <Button
+          size="3"
+          variant="surface"
+          onClick={() => {
+            window.open("viber://chat?number=%2B123456789", "_blank");
+          }}
+        >
+          <MessageSquare style={{ marginRight: 8 }} />
+          Viber
+        </Button>
       </Flex>
     </Flex>
   );

@@ -25,7 +25,7 @@ const AddLogForm = ({ eurosys_id }: { eurosys_id: number }) => {
       setSuccess(true);
       window.location.reload();
     } else {
-      alert("Failed to add log.");
+      alert("Failed to add communication.");
     }
   };
 
@@ -35,7 +35,7 @@ const AddLogForm = ({ eurosys_id }: { eurosys_id: number }) => {
         <textarea
           value={logText}
           onChange={(e) => setLogText(e.target.value)}
-          placeholder="Enter New Log..."
+          placeholder="Enter New Communication..."
           required
           rows={3}
           style={{ width: "100%", padding: "8px", fontSize: "16px" }}
@@ -47,11 +47,11 @@ const AddLogForm = ({ eurosys_id }: { eurosys_id: number }) => {
           color="blue"
           size="3"
         >
-          {loading ? "Adding..." : "Add Log"}
+          {loading ? "Adding..." : "Add Communication"}
         </Button>
         {success && (
           <p style={{ color: "green", marginTop: "6px" }}>
-            Log added successfully!
+            Communication added successfully!
           </p>
         )}
       </form>

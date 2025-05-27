@@ -21,12 +21,12 @@ const ClientLogs = ({ logs }: { logs: Log[] }) => {
         </Flex>
       ) : (
         <Flex direction="column" gap="4">
-          <Heading>Client Logs</Heading>
+          <Heading>Client Communications</Heading>
           <Table.Root variant="surface">
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Log</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Communication</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
