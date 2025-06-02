@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Flex } from "@radix-ui/themes";
 import DemoClientTable from "./DemoClientsTable";
 import Filters from "./Filters";
+import { SiteHeader } from "@/components/site-header";
 
 const DEFAULT_COLUMNS = [
   "name",
@@ -15,6 +16,14 @@ const DEFAULT_COLUMNS = [
   "is_egt",
   "is_bgt",
   "is_f359",
+];
+
+const breadcrumbItems = [
+  {
+    label: "Demo Customers",
+    description:
+      "A demo list of custemers intended to showcase the features of the platform",
+  },
 ];
 
 export default function DemoClientsPage() {
@@ -31,9 +40,10 @@ export default function DemoClientsPage() {
 
   return (
     <Flex direction="column" gap="3">
-      <h1 className="text-2xl font-bold mb-4">Demo Clients</h1>
-      <Filters visibleColumns={visibleColumns} toggleColumn={toggleColumn} />
-      <DemoClientTable visibleColumns={visibleColumns} />
+      <SiteHeader breadcrumbItems={breadcrumbItems}>
+        <Filters visibleColumns={visibleColumns} toggleColumn={toggleColumn} />
+        <DemoClientTable visibleColumns={visibleColumns} />
+      </SiteHeader>
     </Flex>
   );
 }

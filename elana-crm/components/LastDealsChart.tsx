@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, Text } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import {
   Bar,
@@ -10,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
 interface DealChartData {
   date: string;
@@ -35,9 +35,13 @@ const LastDealsChart = () => {
 
   return (
     <Card>
-      <Text size="3" weight="bold" mb="2">
-        Deals in the Last 6 Months
-      </Text>
+      <CardHeader>
+        <CardTitle>Deals</CardTitle>
+        <CardDescription>
+          <span className="hidden @[540px]/card:block">Deals</span>
+          <span className="@[540px]/card:hidden">*what?closed?* in the Last 6 Months</span>
+        </CardDescription>
+      </CardHeader>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <XAxis

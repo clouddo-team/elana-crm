@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, Text } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import {
   Bar,
@@ -10,6 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
 interface ClientsByMonth {
   date: string;
@@ -40,9 +40,13 @@ export default function LastClientsChart() {
 
   return (
     <Card>
-      <Text size="3" weight="bold" mb="2">
-        Real Clients Created In The Last 6 Months
-      </Text>
+      <CardHeader>
+        <CardTitle>Real Clients</CardTitle>
+        <CardDescription>
+          <span className="hidden @[540px]/card:block">Real Clients</span>
+          <span className="@[540px]/card:hidden">Created In The Last 6 Months</span>
+        </CardDescription>
+      </CardHeader>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <XAxis

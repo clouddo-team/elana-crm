@@ -5,6 +5,7 @@ import ClientEditButton from "../_components/ClientEditButton";
 import ClientDeals from "./ClientDeals";
 import ClientLogs from "./ClientLogs";
 import AddLogForm from "./_components/AddLogForm";
+import { SiteHeader } from "@/components/site-header";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -26,25 +27,32 @@ const ClientDealsPage = async ({ params }: Props) => {
     }),
   ]);
 
-  return (
-    <Box p="6" maxWidth="1000px" mx="auto">
-      <Card size="3" mb="4">
-        <Flex justify="between" align="center" gap="4">
-          <Heading size="5">{client?.name || `Client ${clientId}`}</Heading>
-          <Flex gap="3">
-            <ClientEditButton clientId={clientId} />
-            <ClientDeleteButton clientId={clientId} />
-          </Flex>
-        </Flex>
+  const breadcrumbItems = [
+    { label: "Customers", href: "/clients" },
+    { label: client?.name || `Client ${clientId}` },
+  ];
 
-        <Separator my="4" />
-      </Card>
-      <Flex direction="column" gap="8">
-        <ClientDeals initialDeals={deals} clientId={clientId} />
-        <ClientLogs logs={logs} />
-        <AddLogForm eurosys_id={clientId} />
-      </Flex>
-    </Box>
+  return (
+    <SiteHeader breadcrumbItems={breadcrumbItems}>
+      <Box p="6" maxWidth="1000px" mx="auto">
+        <Card size="3" mb="4">
+          <Flex justify="between" align="center" gap="4">
+            <Heading size="5">{client?.name || `Client ${clientId}`}</Heading>
+            <Flex gap="3">
+              <ClientEditButton clientId={clientId} />
+              <ClientDeleteButton clientId={clientId} />
+            </Flex>
+          </Flex>
+
+          <Separator my="4" />
+        </Card>
+        <Flex direction="column" gap="8">
+          <ClientDeals initialDeals={deals} clientId={clientId} />
+          <ClientLogs logs={logs} />
+          <AddLogForm eurosys_id={clientId} />
+        </Flex>
+      </Box>
+    </SiteHeader>
   );
 };
 
