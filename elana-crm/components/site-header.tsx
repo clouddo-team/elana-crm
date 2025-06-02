@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
+import DarkModeSwitch from "./DarkModeSwitch";
 
 export function SiteHeader({
   breadcrumbItems,
@@ -57,6 +58,10 @@ export function SiteHeader({
               ))}
             </BreadcrumbList>
           </Breadcrumb>
+
+          <div className="ml-auto">
+            <DarkModeSwitch />
+          </div>
         </div>
       </header>
       <div className="flex flex-1 flex-col">

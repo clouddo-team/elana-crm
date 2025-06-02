@@ -28,19 +28,19 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-        <ThemeProvider defaultTheme="light">
-          <Theme>
-            <SidebarProvider
-              style={
-                {
-                  "--header-height": "calc(var(--spacing) * 12)",
-                } as React.CSSProperties
-              }
-            >
-              <AppSidebar />
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <Theme>
+              <SidebarProvider
+                style={
+                  {
+                    "--header-height": "calc(var(--spacing) * 12)",
+                  } as React.CSSProperties
+                }
+              >
+                <AppSidebar />
 
-              <SidebarInset>{children}</SidebarInset>
-            </SidebarProvider>
+                <SidebarInset>{children}</SidebarInset>
+              </SidebarProvider>
             </Theme>
           </ThemeProvider>
         </AuthProvider>
