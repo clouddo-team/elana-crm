@@ -9,7 +9,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useEffect, useState } from "react";
-
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
 type PieDataItem = {
@@ -41,32 +46,43 @@ export default function DemoClientPieChart() {
   if (data.length === 0) return <p>No data to display.</p>;
 
   return (
-    <div style={{ width: 500, height: 500 }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart margin={{ top: 10, right: 10, bottom: 40, left: 10 }}>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="45%"
-            outerRadius={180}
-            fill="#8884d8"
-            label
-          >
-            {data.map((entry, index) => (
-              <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend
-            verticalAlign="bottom"
-            align="center"
-            layout="horizontal"
-            wrapperStyle={{ paddingTop: "20px" }}
-          />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
+    <Card className="@container/card">
+      <CardHeader>
+        <CardTitle>Demo Clients</CardTitle>
+        <CardDescription>
+          <span className="hidden @[540px]/card:block">
+            Example description of what this chart is about
+          </span>
+          <span className="@[540px]/card:hidden">Last 3 months</span>
+        </CardDescription>
+      </CardHeader>
+      <div>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart margin={{ top: 10, right: 10, bottom: 40, left: 10 }}>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="45%"
+              outerRadius={180}
+              fill="#8884d8"
+              label
+            >
+              {data.map((entry, index) => (
+                <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend
+              verticalAlign="bottom"
+              align="center"
+              layout="horizontal"
+              wrapperStyle={{ paddingTop: "20px" }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </Card>
   );
 }

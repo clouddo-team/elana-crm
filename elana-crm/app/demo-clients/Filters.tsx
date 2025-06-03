@@ -1,10 +1,11 @@
 "use client";
 
-import { Button, DropdownMenu, Flex } from "@radix-ui/themes";
+import { DropdownMenu } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ClientSearchFilter from "../../components/ClientSearchFilter";
 import { useDebounce } from "../utils/useDebounce";
+import { Button } from "@/components/ui/button";
 
 const ALL_COLUMNS = [
   { key: "name", label: "Name" },
@@ -48,7 +49,7 @@ const Filters = ({
   };
 
   return (
-    <Flex justify="between" align="center" gap="4" wrap="wrap">
+    <div className="flex justify-between items-center gap-4 flex-wrap mb-4">
       <ClientSearchFilter
         searchTerm={searchTerm}
         onSearchChange={handleSearchChange}
@@ -56,9 +57,7 @@ const Filters = ({
 
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Button variant="outline" size="3" mb="4">
-            Show Columns
-          </Button>
+          <Button variant="outline">Show Columns</Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           {ALL_COLUMNS.map((col) => (
@@ -74,9 +73,7 @@ const Filters = ({
       </DropdownMenu.Root>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Button variant="outline" size="3" mb="4">
-            Filter Platform 1
-          </Button>
+          <Button variant="outline">Filter Platform 1</Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           {["all", "yes", "no"].map((value) => (
@@ -97,9 +94,7 @@ const Filters = ({
 
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Button variant="outline" size="3" mb="4">
-            Filter Platform 2
-          </Button>
+          <Button variant="outline">Filter Platform 2</Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           {["all", "yes", "no"].map((value) => (
@@ -120,9 +115,7 @@ const Filters = ({
 
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Button variant="outline" size="3" mb="4">
-            Filter Platform 3
-          </Button>
+          <Button variant="outline">Filter Platform 3</Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           {["all", "yes", "no"].map((value) => (
@@ -140,7 +133,7 @@ const Filters = ({
           ))}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
-    </Flex>
+    </div>
   );
 };
 

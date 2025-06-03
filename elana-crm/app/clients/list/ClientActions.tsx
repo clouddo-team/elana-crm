@@ -1,12 +1,12 @@
 "use client";
 
-import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import StatusFilter from "./StatusFilter";
 import ClientSearchFilter from "@/components/ClientSearchFilter";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDebounce } from "../../utils/useDebounce";
+import { Button } from "@/components/ui/button";
 
 const ClientActions = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const ClientActions = () => {
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
-  const debouncedSearch = useDebounce(searchTerm, 500);
+  const debouncedSearch = useDebounce(searchTerm, 300);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
@@ -31,16 +31,21 @@ const ClientActions = () => {
   };
 
   return (
-    <Flex justify="between" align="center" gap="4">
-      <StatusFilter />
-      <ClientSearchFilter
-        searchTerm={searchTerm}
-        onSearchChange={handleSearchChange}
-      />
-      <Button variant="soft" size="3" asChild>
-        <Link href="/clients/new">Add New Client</Link>
-      </Button>
-    </Flex>
+    <div className="flex items-center gap-2 w-full justify-between mb-4">
+      <div className="flex items-center gap-2">
+        <StatusFilter />
+        <ClientSearchFilter
+          searchTerm={searchTerm}
+          onSearchChange={handleSearchChange}
+        />
+      </div>
+
+      <div className="justify-self-end">
+        <Button variant="outline" asChild>
+          <Link href="/clients/new">Add new client</Link>
+        </Button>
+      </div>
+    </div>
   );
 };
 
