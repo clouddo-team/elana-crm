@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Flex } from "@radix-ui/themes";
 import DemoClientTable from "./DemoClientsTable";
 import Filters from "./Filters";
 import { SiteHeader } from "@/components/site-header";
@@ -39,11 +38,9 @@ export default function DemoClientsPage() {
   };
 
   return (
-    <Flex direction="column" gap="3">
-      <SiteHeader breadcrumbItems={breadcrumbItems}>
-        <Filters visibleColumns={visibleColumns} toggleColumn={toggleColumn} />
-        <DemoClientTable visibleColumns={visibleColumns} />
-      </SiteHeader>
-    </Flex>
+    <SiteHeader breadcrumbItems={breadcrumbItems}>
+      <Filters visibleColumns={visibleColumns} toggleColumn={toggleColumn} />
+      <DemoClientTable visibleColumns={visibleColumns} />
+    </SiteHeader>
   );
 }

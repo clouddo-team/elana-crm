@@ -42,13 +42,21 @@ const ClientSummary = () => {
     fetchExpiredIDsLastWeek();
   }, []);
 
-  const containers = [
+  const containers: {
+    label: string;
+    value: number;
+    icon: React.ReactNode;
+    description?: string;
+    clarification?: string;
+    percentage: number;
+    href: string;
+  }[] = [
     {
       label: "Real Clients Created MTD",
       value: realClientsMTD,
       icon: <TrendingUp />,
-      description: "Trending up this month",
-      clarification: "Visitors for the last 6 months",
+      // description: "Trending up this month",
+      // clarification: "Visitors for the last 6 months",
       percentage: 0,
       href: "/clients",
     },
@@ -56,16 +64,16 @@ const ClientSummary = () => {
       label: "Real Clients Created Last 30 Days",
       value: realClientsLast30Days,
       icon: <TrendingUp />,
-      description: "Trending up this month",
+      // description: "Trending up this month",
       clarification: "Visitors for the last 6 months",
-      percentage: 12.5,
+      percentage: 100,
       href: "/clients",
     },
     {
       label: "Real Clients with Expired ID Last Week",
       value: expiredIDsLastWeek,
       icon: <TrendingUp />,
-      description: "Trending up this month",
+      // description: "Trending up this month",
       clarification: "Visitors for the last 6 months",
       percentage: 0,
       href: "/clients",
@@ -90,14 +98,16 @@ const ClientSummary = () => {
               </Badge>
             </CardAction>
           </CardHeader>
-          <CardFooter className="flex-col items-start gap-1.5 text-sm">
-            <div className="line-clamp-1 flex gap-2 font-medium">
-              {container.description} {container.icon}
-            </div>
-            <div className="text-muted-foreground">
-              {container.clarification}
-            </div>
-          </CardFooter>
+          {container.description && (
+            <CardFooter className="flex-col items-start gap-1.5 text-sm">
+              <div className="line-clamp-1 flex gap-2 font-medium">
+                {container.description} {container.icon}
+              </div>
+              <div className="text-muted-foreground">
+                {container.clarification}
+              </div>
+            </CardFooter>
+          )}
         </Card>
       ))}
     </div>

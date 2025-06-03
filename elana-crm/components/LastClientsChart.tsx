@@ -4,12 +4,22 @@ import { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
-  ResponsiveContainer,
-  Tooltip,
+  CartesianGrid,
   XAxis,
-  YAxis,
 } from "recharts";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "./ui/chart";
 
 interface ClientsByMonth {
   date: string;
@@ -36,41 +46,55 @@ export default function LastClientsChart() {
     fetchClients();
   }, []);
 
+  const chartConfig = {
+    clients: {
+      label: "Real clients",
+      color: "var(--chart-1)",
+    },
+  } satisfies ChartConfig;
+
   if (loading) return <div>Loading...</div>;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Real Clients</CardTitle>
+        <CardTitle>Real clients</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">Real Clients</span>
-          <span className="@[540px]/card:hidden">Created In The Last 6 Months</span>
+          <span className="@[540px]/card:hidden">
+            Created in the last 6 months
+          </span>
         </CardDescription>
       </CardHeader>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
-          <XAxis
-            dataKey="date"
-            tickFormatter={(date) =>
-              new Date(date + "-01").toLocaleString("default", {
-                month: "short",
-                year: "2-digit",
-              })
-            }
-          />
-          <YAxis />
-          <Tooltip
-            formatter={(value: number) => [`${value}`, "Clients"]}
-            labelFormatter={(label) =>
-              new Date(label + "-01").toLocaleString("default", {
-                month: "long",
-                year: "numeric",
-              })
-            }
-          />
-          <Bar dataKey="count" fill="#3b82f6" />
-        </BarChart>
-      </ResponsiveContainer>
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <BarChart accessibilityLayer data={data}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(date) =>
+                new Date(date + "-01").toLocaleString("default", {
+                  month: "short",
+                  year: "2-digit",
+                })
+              }
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+              labelFormatter={(label) =>
+                new Date(label + "-01").toLocaleString("default", {
+                  month: "long",
+                  year: "numeric",
+                })
+              }
+            />
+            <Bar dataKey="count" fill="var(--accent-9)" radius={8} />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
     </Card>
   );
 }

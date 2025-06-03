@@ -36,16 +36,16 @@ const DemoClientSummary = () => {
 
   const containers = [
     {
-      label: "Demo Validity Expired Last Month",
+      label: "Demo validity expired last month",
       value: expiredLastMonth,
       icon: <TrendingUp />,
       description: "Demo clients expired",
       clarification: "Last 30 days",
-      percentage: 0,
+      percentage: 100,
       href: "/demo_clients",
     },
     {
-      label: "Demo Validity Expired MTD",
+      label: "Demo validity expired MTD",
       value: expiredMTD,
       icon: <TrendingUp />,
       description: "Demo clients expired",

@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
-  ResponsiveContainer,
-  Tooltip,
+  CartesianGrid,
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 
 interface DealChartData {
   date: string;
@@ -33,37 +39,53 @@ const LastDealsChart = () => {
     fetchDeals();
   }, []);
 
+  const chartConfig = {
+    deals: {
+      label: "Deals",
+      color: "var(--chart-1)",
+    },
+  } satisfies ChartConfig;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Deals</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">Deals</span>
-          <span className="@[540px]/card:hidden">*what?closed?* in the Last 6 Months</span>
+          <span className="@[540px]/card:hidden">
+            Closed in the last 6 months
+          </span>
         </CardDescription>
       </CardHeader>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
-          <XAxis
-            dataKey="date"
-            tickFormatter={(date) => {
-              const [year, month] = date.split("-");
-              return `${month}/${year.slice(2)}`; // e.g., "04/24"
-            }}
-            tick={{ fontSize: 12 }}
-          />
-          <YAxis />
-          <Tooltip
-            labelFormatter={(date) => `Month: ${date}`}
-            formatter={(value: number) => [`${value}`, "Deals"]}
-          />
-          <Bar
-            dataKey="count"
-            barSize={40}
-            style={{ fill: "var(--accent-9)" }}
-          />
-        </BarChart>
-      </ResponsiveContainer>
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <BarChart data={data}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(date) => {
+                const [year, month] = date.split("-");
+                return `${month}/${year.slice(2)}`; // e.g., "04/24"
+              }}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+              labelFormatter={(date) => `Month: ${date}`}
+              formatter={(value: number) => [`${value}`, "Deals"]}
+            />
+            <Bar
+              dataKey="count"
+              radius={8}
+              style={{ fill: "var(--accent-9)" }}
+            />
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
     </Card>
   );
 };
